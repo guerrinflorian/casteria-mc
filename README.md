@@ -5,14 +5,14 @@
 <p align="center">
   <a href="https://github.com/guerrinflorian/casteria-mc/releases/download/installateur/Casteria-Installation.exe"><img src="images/bouton_windows.png" alt="Télécharger pour Windows" width="250"></a>
   <a href="https://github.com/guerrinflorian/casteria-mc/releases/tag/installateur"><img src="images/bouton_mac.png" alt="Télécharger pour Mac" width="250"></a>
-  <a href="https://github.com/guerrinflorian/casteria-mc/releases/tag/installateur"><img src="images/bouton_linux.png" alt="Télécharger pour Linux (version d'essai)" width="250"></a>
+  <a href="https://github.com/guerrinflorian/casteria-mc/releases/tag/installateur"><img src="images/bouton_linux.png" alt="Télécharger pour Linux" width="250"></a>
 </p>
 
 <p align="center">
   <sub>
     Mac : <a href="https://github.com/guerrinflorian/casteria-mc/releases/download/installateur/Casteria-mac-apple-silicon.zip">puce Apple (M1, M2, M3...)</a>
     ou <a href="https://github.com/guerrinflorian/casteria-mc/releases/download/installateur/Casteria-mac-intel.zip">processeur Intel</a>
-    <br>Linux (version d'essai) : <a href="https://github.com/guerrinflorian/casteria-mc/releases/tag/installateur">choisis ton fichier sur la page d'installation</a>
+    <br>Linux : <a href="https://github.com/guerrinflorian/casteria-mc/releases/tag/installateur">choisis ton fichier sur la page d'installation</a>
     <br><a href="https://github.com/guerrinflorian/casteria-mc/releases/tag/installateur">L'aide pour installer, système par système</a>
   </sub>
 </p>
