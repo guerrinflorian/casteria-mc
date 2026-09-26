@@ -1,0 +1,61 @@
+{
+  "name": "casteria-launcher",
+  "productName": "Casteria",
+  "version": "1.0.7",
+  "private": true,
+  "description": "Casteria, un serveur Skyblock moddé : ton île, tes machines et des boss à affronter.",
+  "author": "Casteria",
+  "main": "amorce/amorce.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "console": "node casteria.js",
+    "essais": "node outils/essais.js",
+    "fenetre": "electron .",
+    "installateur": "electron-builder --win nsis",
+    "linux": "electron-builder --linux dir --x64 --config plateformes/linux/electron-builder-linux.json"
+  },
+  "devDependencies": {
+    "electron": "44.4.5",
+    "electron-builder": "26.15.3"
+  },
+  "build": {
+    "appId": "fr.casteria.launcher",
+    "productName": "Casteria",
+    "copyright": "Casteria",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "amorce/**/*",
+      "electron/**/*",
+      "src/**/*",
+      "package.json",
+      "!electron/fenetre/CONTRAT_FENETRE.md",
+      "!electron/icones/logo-*.png"
+    ],
+    "extraResources": [
+      { "from": "bin/LICENSE-portablemc.txt", "to": "bin/LICENSE-portablemc.txt" },
+      { "from": "bin/empreintes.json", "to": "bin/empreintes.json" }
+    ],
+    "win": {
+      "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "icon": "electron/icones/casteria.ico",
+      "extraResources": [
+        { "from": "bin/win32-x64/portablemc.exe", "to": "bin/portablemc.exe" }
+      ]
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Casteria",
+      "deleteAppDataOnUninstall": true,
+      "runAfterFinish": true,
+      "artifactName": "Casteria-Installation.${ext}",
+      "uninstallDisplayName": "Casteria"
+    }
+  }
+}

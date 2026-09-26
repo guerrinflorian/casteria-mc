@@ -1,0 +1,47 @@
+# Installé par npm (Electron) : jamais dans git
+node_modules/
+
+# Refait ou produit à chaque passage
+essais/
+journaux/
+*.log
+design/photos/
+
+# La sortie de chaque mise en ligne (copie de la release GitHub « joueurs », qui fait foi)
+release_joueurs/
+
+# PortableMC : le binaire officiel se retélécharge et se vérifie par sa signature PGP (voir LISEZMOI)
+bin/*/portablemc
+bin/*/portablemc.exe
+
+# Jamais : les clés et le jeton sont dans C:\Users\guerr\Casteria_cles, hors du projet
+*.pem
+*token*
+
+# Les matieres des anciennes maquettes A et B (fichiers de Mojang : jamais dans git, decision du 25/09)
+design/commun/icones/
+design/commun/tetes/
+design/commun/textures/spruce_planks.png
+design/commun/textures/dark_oak_planks.png
+design/commun/textures/stripped_dark_oak_log.png
+
+# La sortie de electron-builder (l installateur fabrique)
+dist/
+
+# La sortie de publier_code.js (copie de la release GitHub « launcher »)
+release_launcher/
+
+# Les paquets Mac et Linux (2e, cc) : zips d Electron et sorties, trop gros pour git
+plateformes/*/cache/
+plateformes/*/sortie/
+
+# Refait a partir de source.jpg (ae)
+design/icone/source.png
+plateformes/linux/sortie_docker/
+plateformes/linux/sortie_essai1/
+plateformes/linux/ancien/
+
+# Ce qui a ete retire du depot GitHub, garde ici (hors git)
+archives_depot/
+plateformes/linux/code_essai/
+plateformes/linux/photos_relecture/

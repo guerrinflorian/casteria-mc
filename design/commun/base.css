@@ -1,0 +1,159 @@
+/* Casteria, le launcher : la base commune des deux propositions (serveurmc-ae, 25/09/2026).
+   Les matieres sont celles des ecrans du serveur (casinoui) : parchemin, cadre en bois a coins dores, ruban rouge,
+   boutons pixel, et les planches de Minecraft. Toujours en pixels nets (image-rendering: pixelated), a l'echelle 3. */
+
+@font-face { font-family: "Fredoka"; src: url("polices/fredoka.ttf") format("truetype"); font-weight: 300 700; }
+@font-face { font-family: "Lilita One"; src: url("polices/lilita_one.ttf") format("truetype"); }
+
+:root {
+  /* le parchemin des panneaux */
+  --parchemin: #FFF8E7;
+  --parchemin-2: #F7EDD3;
+  --parchemin-3: #EAD9B2;
+  /* le cadre en bois */
+  --bois: #6B4423;
+  --bois-clair: #8C5A2E;
+  --bois-fonce: #3F2612;
+  /* l'or */
+  --or: #D7A421;
+  --or-fonce: #A57713;
+  --or-clair: #FFD75E;
+  /* le ruban des titres, l'encre, le castérium et les crédits, les genres des boutons */
+  --ruban: #B5352B;
+  --encre: #3A2614;
+  --encre-douce: #7A5B3E;
+  --violet: #8E4CB8;
+  --violet-clair: #D29CFF;
+  --vert: #3E8E2F;
+  --vert-clair: #6CC04A;
+  --bleu: #3F7FB6;
+  --rouge: #B5352B;
+  --echelle: 3px;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 1100px; height: 700px; overflow: hidden; }
+body {
+  font-family: "Fredoka", sans-serif;
+  font-weight: 500;
+  color: var(--encre);
+  background: var(--bois-fonce);
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+img, .pixel { image-rendering: pixelated; }
+
+/* ---------- les matieres ---------- */
+.parchemin {
+  background: url("textures/parchemin.png") 0 0 / 96px 96px repeat;
+  image-rendering: pixelated;
+}
+/* le cadre des ecrans du serveur : 48 x 48, bord de 8, a l'echelle 3 */
+.cadre-bois {
+  border: 24px solid transparent;
+  border-image: url("textures/cadre.png") 8 fill / 24px / 0 round;
+  image-rendering: pixelated;
+}
+/* la carte : un filet brun clair et des coins dores, 24 x 24, bord de 6 */
+.carte {
+  border: 12px solid transparent;
+  border-image: url("textures/carte.png") 6 / 12px round;
+  image-rendering: pixelated;
+}
+.planches {
+  background: url("textures/dark_oak_planks.png") 0 0 / 48px 48px repeat;
+  image-rendering: pixelated;
+}
+.planches-sapin {
+  background: url("textures/spruce_planks.png") 0 0 / 48px 48px repeat;
+  image-rendering: pixelated;
+}
+
+/* ---------- le ruban rouge des titres (64 x 20, bords de 14) ---------- */
+.ruban {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 60px; padding: 0 58px 6px;
+  border: solid transparent; border-width: 0 42px;
+  border-image: url("textures/ruban.png") 0 14 fill / 0 42px stretch;
+  image-rendering: pixelated;
+  font-family: "Lilita One", sans-serif; font-size: 30px; letter-spacing: 1px;
+  color: #FFF4D6;
+  text-shadow: 0 3px 0 #6E1A14, 0 0 1px #6E1A14;
+}
+
+/* ---------- les boutons pixel (24 x 24, bord de 5, a l'echelle 3 ou 4) ---------- */
+.bouton {
+  position: relative;
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  border: 15px solid transparent;
+  border-image-slice: 5 fill; border-image-width: 15px; border-image-repeat: stretch;
+  image-rendering: pixelated;
+  font-family: "Fredoka", sans-serif; font-weight: 600; font-size: 16px;
+  color: var(--encre); cursor: pointer; padding: 0 6px;
+  transition: filter .15s ease, transform .12s ease;
+}
+.bouton:hover { filter: brightness(1.07) saturate(1.05); transform: translateY(-1px); }
+.bouton:active { transform: translateY(1px); filter: brightness(.96); }
+.bouton-or { border-image-source: url("textures/bouton_or.png"); }
+.bouton-vert { border-image-source: url("textures/bouton_vert.png"); color: #fff; text-shadow: 0 2px 0 #1F5A17; }
+.bouton-bois { border-image-source: url("textures/bouton_bois.png"); }
+.bouton-rouge { border-image-source: url("textures/bouton_rouge.png"); color: #fff; text-shadow: 0 2px 0 #6E1A14; }
+.bouton-inactif { border-image-source: url("textures/bouton_inactif.png"); color: #6d675c; }
+.bouton img { width: 24px; height: 24px; }
+
+/* ---------- la barre de titre (la fenetre n'a pas le cadre de Windows) ---------- */
+.barre-titre {
+  position: absolute; left: 0; top: 0; right: 0; height: 34px; z-index: 10;
+  display: flex; align-items: center; gap: 10px; padding-left: 12px;
+  -webkit-app-region: drag;
+  box-shadow: inset 0 -3px 0 var(--or-fonce), 0 3px 0 rgba(0, 0, 0, .35);
+}
+.barre-titre::before { content: ""; position: absolute; inset: 0; background: rgba(20, 10, 4, .55); z-index: -1; }
+.barre-titre img { width: 22px; height: 22px; image-rendering: auto; }
+.barre-titre .nom { font-family: "Lilita One", sans-serif; font-size: 17px; color: var(--or-clair); letter-spacing: 1px; text-shadow: 0 2px 0 #1b0f07; }
+.barre-titre .espace { flex: 1; }
+.barre-titre .fenetre-bouton {
+  -webkit-app-region: no-drag;
+  width: 46px; height: 34px; display: grid; place-items: center; cursor: pointer;
+  color: #EAD9B2; transition: background .15s ease;
+}
+.barre-titre .fenetre-bouton:hover { background: rgba(255, 215, 94, .16); }
+.barre-titre .fenetre-bouton.fermer:hover { background: var(--rouge); color: #fff; }
+.barre-titre .fenetre-bouton svg { width: 12px; height: 12px; shape-rendering: crispEdges; }
+
+/* ---------- les titres de zone (comme ciUiZone : le titre, un filet qui s'efface, la phrase) ---------- */
+.zone-titre {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 15px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+}
+.zone-titre::after { content: ""; flex: 1; height: 2px; background: linear-gradient(90deg, currentColor, transparent); opacity: .55; }
+.zone-titre.regler { color: var(--bleu); }
+.zone-titre.depenser { color: var(--or-fonce); }
+.zone-titre.gagner { color: var(--vert); }
+.zone-phrase { margin: 4px 0 0; font-size: 14px; font-weight: 400; color: var(--encre-douce); }
+
+/* ---------- l'etat du serveur ---------- */
+.voyant { width: 12px; height: 12px; background: var(--vert-clair); box-shadow: 0 0 0 3px rgba(108, 192, 74, .25); animation: pouls 2.4s ease-in-out infinite; }
+@keyframes pouls { 50% { box-shadow: 0 0 0 7px rgba(108, 192, 74, 0); } }
+/* les barres de latence de la liste des joueurs du jeu */
+.latence { display: inline-flex; align-items: flex-end; gap: 2px; height: 14px; }
+.latence i { width: 3px; background: var(--vert-clair); box-shadow: 1px 1px 0 rgba(0, 0, 0, .35); }
+.latence i:nth-child(1) { height: 4px; } .latence i:nth-child(2) { height: 7px; } .latence i:nth-child(3) { height: 10px; } .latence i:nth-child(4) { height: 14px; }
+.tete { width: 32px; height: 32px; image-rendering: pixelated; box-shadow: 0 0 0 2px var(--bois-fonce), 2px 3px 0 2px rgba(0, 0, 0, .25); }
+
+/* ---------- la barre de progression (la jauge des ecrans du serveur) ---------- */
+.jauge { position: relative; height: 18px; background: var(--bois-fonce); box-shadow: inset 0 0 0 2px #24150a, 0 2px 0 rgba(255, 255, 255, .08); }
+.jauge > i {
+  position: absolute; left: 3px; top: 3px; bottom: 3px; width: calc((100% - 6px) * var(--progression, 0));
+  background: linear-gradient(180deg, var(--or-clair) 0 30%, var(--or) 30% 75%, var(--or-fonce) 75%);
+  transition: width .3s ease;
+}
+.jauge > i::after {
+  content: ""; position: absolute; inset: 0;
+  background: repeating-linear-gradient(90deg, transparent 0 9px, rgba(0, 0, 0, .12) 9px 12px);
+}
+
+/* ---------- une barre de defilement pixel ---------- */
+.defile::-webkit-scrollbar { width: 12px; }
+.defile::-webkit-scrollbar-track { background: rgba(58, 38, 20, .12); }
+.defile::-webkit-scrollbar-thumb { background: var(--bois-clair); box-shadow: inset 0 0 0 2px var(--bois-fonce), inset 3px 3px 0 rgba(255, 255, 255, .15); }

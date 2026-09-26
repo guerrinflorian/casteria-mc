@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Casteria, les images de la page GitHub</title>
+<!-- Chaque image de la page GitHub est un bloc de cette page ; fabriquer_images.js en photographie un a la fois
+     (#banniere, #bouton-windows...), avec un fond transparent. Les matieres sont celles du launcher. -->
+<style>
+@font-face { font-family: "Fredoka"; src: url("../../electron/fenetre/theme/polices/fredoka.ttf"); font-weight: 300 700; }
+@font-face { font-family: "Lilita One"; src: url("../../electron/fenetre/theme/polices/lilita_one.ttf"); }
+:root { --creme: #FFF1CF; --creme-douce: #F3DFB6; --or: #D7A421; --or-fonce: #A57713; --or-clair: #FFD75E; --bois: #6B4423; --ruban: #B5352B; }
+html, body { margin: 0; background: transparent; }
+body { font-family: "Fredoka", sans-serif; -webkit-font-smoothing: antialiased; }
+.bloc { display: none; }
+body[data-bloc="banniere"] #banniere, body[data-bloc="launcher"] #launcher, body[data-bloc="boss"] #boss,
+body[data-bloc="bouton-windows"] #bouton-windows, body[data-bloc="bouton-mac"] #bouton-mac, body[data-bloc="bouton-linux"] #bouton-linux,
+body[data-bloc="sceau-1"] #sceau-1, body[data-bloc="sceau-2"] #sceau-2, body[data-bloc="sceau-3"] #sceau-3 { display: block; }
+
+/* ---------- la banniere : le palais au soleil dore, le logo et le titre ---------- */
+#banniere { position: relative; width: 1280px; height: 520px; overflow: hidden; }
+#banniere .photo {
+  position: absolute; left: 0; top: -130px; width: 1280px; height: 720px;
+  background: url("../../art/prises_de_vue/palais_soleil_dore_23300.png") center / cover no-repeat;
+}
+#banniere .ombre {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg, rgba(22, 12, 5, 0) 45%, rgba(22, 12, 5, .55) 68%, rgba(22, 12, 5, .92) 100%),
+    linear-gradient(90deg, rgba(22, 12, 5, .45) 0%, rgba(22, 12, 5, 0) 45%);
+}
+#banniere .logo { position: absolute; left: 34px; bottom: 18px; width: 230px; height: 230px; filter: drop-shadow(0 8px 14px rgba(0, 0, 0, .65)); }
+#banniere .textes { position: absolute; left: 282px; bottom: 44px; }
+#banniere h1 {
+  margin: 0; font-family: "Lilita One", sans-serif; font-weight: 400; font-size: 64px; line-height: 1; letter-spacing: .5px;
+  color: var(--creme); text-shadow: 0 4px 0 #1d0f05, 0 0 22px rgba(0, 0, 0, .6);
+}
+#banniere h1 span { color: var(--or-clair); }
+#banniere p { margin: 12px 0 0; font-size: 22px; font-weight: 600; color: var(--creme-douce); text-shadow: 0 2px 0 #140a03; }
+
+/* ---------- le launcher : la capture, coins arrondis et ombre, comme la vraie fenetre ---------- */
+#launcher { padding: 26px 40px 54px; }
+#launcher img { display: block; width: 1100px; height: 700px; border-radius: 10px; box-shadow: 0 0 0 1px rgba(0, 0, 0, .35), 0 18px 40px rgba(0, 0, 0, .45), 0 4px 10px rgba(0, 0, 0, .3); }
+
+/* ---------- un boss : la capture sans la barre du bas ---------- */
+/* ---------- des boss : nos modeles en groupe (boss_groupe.js), sans arene, sur le ciel dore flou ---------- */
+#boss { position: relative; width: 960px; height: 400px; overflow: hidden; border-radius: 10px; background: #2a1509; }
+#boss .ciel {
+  position: absolute; inset: -40px;
+  background: url("../../art/prises_de_vue/palais_plus_haut_plus_large_soleil_dore_23300.png") 50% 30% / cover no-repeat;
+  filter: blur(16px) brightness(.8) saturate(1.15);
+}
+#boss .ombre {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 46% 9% at 50% 88%, rgba(20, 8, 2, .55), transparent 100%),
+    linear-gradient(180deg, rgba(22, 12, 5, .15) 0%, rgba(22, 12, 5, 0) 45%, rgba(22, 12, 5, .7) 100%);
+}
+#boss img { position: absolute; left: 50%; bottom: -34px; width: 1000px; height: 438px; transform: translateX(-50%); filter: drop-shadow(0 6px 10px rgba(0, 0, 0, .45)); }
+
+/* ---------- les boutons de telechargement (les boutons pixel des ecrans du serveur) ---------- */
+.bouton {
+  box-sizing: border-box; width: 340px; height: 96px; margin: 6px;
+  display: flex; align-items: center; gap: 16px; padding: 0 12px;
+  border: 20px solid transparent; border-image: url("../../electron/fenetre/theme/images/bouton_vert.png") 5 / 20px round;
+  background: #74be60 padding-box; image-rendering: pixelated;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, .35);
+}
+.bouton.bois { border-image-source: url("../../electron/fenetre/theme/images/bouton_bois.png"); background-color: #d1a66a; }
+.bouton svg { width: 34px; height: 34px; flex: none; shape-rendering: crispEdges; color: #fff; filter: drop-shadow(0 3px 0 #1F5A17); }
+.bouton.bois svg { color: var(--bois); filter: none; }
+.bouton .petit { display: block; font-size: 15px; font-weight: 600; color: #EFFFE6; text-shadow: 0 2px 0 #1F5A17; }
+.bouton .grand { display: block; font-family: "Lilita One", sans-serif; font-size: 34px; line-height: 1; color: #fff; text-shadow: 0 3px 0 #1F5A17; letter-spacing: .5px; }
+.bouton.bois .petit { color: #6B4423; text-shadow: none; }
+.bouton.bois .grand { color: #3A2614; text-shadow: 0 2px 0 rgba(255, 255, 255, .35); }
+.bouton .grand small { font-family: "Fredoka", sans-serif; font-size: 15px; font-weight: 600; letter-spacing: 0; }
+
+/* ---------- les sceaux des etapes (ceux des nouvelles du launcher) ---------- */
+.sceau {
+  width: 72px; height: 72px; margin: 6px; border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle at 35% 30%, #d9564a, var(--ruban) 55%, #7d2019);
+  box-shadow: 0 0 0 4px rgba(125, 32, 25, .35), 0 4px 6px rgba(0, 0, 0, .3);
+  font-family: "Lilita One", sans-serif; font-size: 34px; color: #FFE1CF; text-shadow: 0 3px 0 #5a120d;
+}
+</style>
+</head>
+<body>
+  <div class="bloc" id="banniere">
+    <div class="photo"></div>
+    <div class="ombre"></div>
+    <img class="logo" src="../../design/commun/logo-512.png" alt="">
+    <div class="textes">
+      <h1>Casteria, <span>ton île dans le ciel</span></h1>
+      <p>Un serveur Skyblock moddé : ton île, tes machines, tes bêtes et des boss à affronter.</p>
+    </div>
+  </div>
+
+  <div class="bloc" id="launcher"><img src="../../design/photos/launcher_accueil.png" alt=""></div>
+
+  <div class="bloc" id="boss"><div class="ciel"></div><div class="ombre"></div><img src="boss_groupe.png" alt=""></div>
+
+  <div class="bloc" id="bouton-windows"><div class="bouton">
+    <svg viewBox="0 0 12 12"><path d="M5 0h2v6h2v2H8v1H7v1H5V9H4V8H3V6h2zM1 10h10v2H1z" fill="currentColor"/></svg>
+    <span><span class="petit">Télécharger pour</span><span class="grand">Windows</span></span>
+  </div></div>
+  <div class="bloc" id="bouton-mac"><div class="bouton">
+    <svg viewBox="0 0 12 12"><path d="M5 0h2v6h2v2H8v1H7v1H5V9H4V8H3V6h2zM1 10h10v2H1z" fill="currentColor"/></svg>
+    <span><span class="petit">Télécharger pour</span><span class="grand">Mac</span></span>
+  </div></div>
+  <div class="bloc" id="bouton-linux"><div class="bouton">
+    <svg viewBox="0 0 12 12"><path d="M5 0h2v6h2v2H8v1H7v1H5V9H4V8H3V6h2zM1 10h10v2H1z" fill="currentColor"/></svg>
+    <span><span class="petit">Télécharger pour</span><span class="grand">Linux</span></span>
+  </div></div>
+
+  <div class="bloc" id="sceau-1"><div class="sceau">1</div></div>
+  <div class="bloc" id="sceau-2"><div class="sceau">2</div></div>
+  <div class="bloc" id="sceau-3"><div class="sceau">3</div></div>
+  <script src="choisir.js"></script>
+</body>
+</html>

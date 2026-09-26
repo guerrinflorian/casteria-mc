@@ -1,0 +1,17 @@
+Casteria : le launcher pour Linux (version .tar.gz)
+
+Casteria, un serveur Skyblock moddé : ton île, tes machines et des boss à affronter.
+
+Il faut un Linux 64 bits récent : Ubuntu 24.04 ou plus récent, Linux Mint 22, Fedora 40, Debian 13, Arch...
+
+Pour l'installer (une seule fois, sans mot de passe) :
+  - double-clique sur installer.sh, ou fais un clic droit dessus et choisis « Lancer comme un programme » ;
+  - ou, dans un terminal ouvert dans ce dossier : ./installer.sh
+Casteria est alors dans le menu des applications, et le launcher s'ouvre. Tu peux ensuite supprimer ce dossier.
+
+Pour le lancer sans l'installer : ./lancer-casteria.sh
+Pour le désinstaller : ./installer.sh --desinstaller
+(ton jeu et tes réglages restent dans ~/.local/share/Casteria).
+
+Si un fichier refuse de se lancer (« Permission non accordée ») :
+     chmod +x installer.sh lancer-casteria.sh casteria

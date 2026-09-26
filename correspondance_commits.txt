@@ -1,0 +1,33 @@
+# Correspondance des numeros de commit de CasteriaLauncher, avant et apres le retrait des lignes Co-Authored-By
+# (proprietaire, 25/09/2026 vers 22:50 ; reecriture par ServeurMC/outils/sans_coauteur.js, contenu identique commit par commit).
+# Une ligne par commit : ancien numero, nouveau numero, sujet.
+76513ce608f3c828a803225282ab53a9a640a742 39f5a13cb7c73e425575143ff941710fcf56cf17 Le launcher de Casteria : premiere version (test PortableMC reussi, release 17 publiee)
+ad40ecdebef24c4062d72ee188ef972274200427 0f9a6520677a3b9e3d14bb855df22c23f88adef0 L'installateur et la mise a jour du launcher par lui-meme (amorce signee)
+d37dd3905a570ff197410e1fe6ce499d36a5efb5 0e4c4895f75cdbb87b76a2ce39960d41cc90f433 LISEZMOI : l'installateur est publie (release installateur, sha256 449e7f02...d087, ne doit plus changer)
+d6468cedebcd6903547fe8e05dc3ce91cc835163 172725e74d9f238b4cec65be83b654052c3f3bc4 Le code du launcher pour Mac et Linux (dossiers, PortableMC par processeur, essais simules)
+a4002db49b3ab5f3364da469992f7f2a8c7406a6 901d2704aabe20ae36134ee79a8947f362aff595 Launcher 1.0.1 : textes pour les joueurs, icone nette a toutes les tailles, raccourcis corriges
+cb1a02d8de1c748b6dff353fea6074a58688c150 6483434c120d72ccaed848bf76ed3b2608db0b62 Launcher 1.0.2 : l'icone avec les 13 tailles finales de ae (20, 24 et 96 px etaient intermediaires dans la 1.0.1)
+508fcf38a9f8a511f03ab3211227a1a11375bb0f eacc68f2bc2958dca15b6b0213fcbfd68dd0c29e Code 1.0.3 : le fichier signe unique (manifeste et signature ensemble), Linux trop ancien dit des l'ouverture, nouvelles de 00
+dc695c825c71d9929505a1a170513af415955e54 7a90e45d0037fd0969166612ba4492d86cf8e6a7 Code 1.0.4 : le titre et la description voulus par Florian, sans aucun nombre
+f828f21cdeb0409d66fad51bf449a6bda0206134 7e121997519e499d19741f0532b60e2d35a9cf28 Mac publie a cote de l'installateur Windows (inchange), paquets Mac et Linux dans git, textes Linux de Florian
+2adb8a96bf7b2a34be7539e0fe640aef6de548b8 e2d9359ea8a63ec968428df5f256c7d8d692e178 publier_autres_systemes.js : les tirets interdits ecrits par leur code (\u2013, \u2014), jamais en clair
+c0d624e5c4bb0de9ad57dd9e96f5e7a6a49833f7 431729209c4ea3970827524e0a1741ba1f3fd4e8 Linux publie a cote de l'installateur Windows (inchange), refait par cc avec le code 1.0.4 et les textes de Florian
+2954540ecbc56db0bad34a63b57720b1efaaf583 041cf20b2146e6471f95491f3dbc3dc445fcd8cc Page de l'installateur : Mac n'est plus une version d'essai (essaye par Florian sur un vrai Mac), seul Linux l'est
+092970e2e0dea765cbe2eae264c2e6df191f4bcc 69ac5e33c08ae5b69b1605f599f8598a2f869ddb Code 1.0.5 (pas encore publie) : jamais les menus de Minecraft, et l'avertissement des majuscules du pseudo
+9c6b3d88aa7fbd88e0605061d8349a01c1a74a8a 30e994be215a6b68680280a4be6e87e2e4a08bc5 Code 1.0.5 : ce que la course en vrai jeu a trouve (sortie du jeu en UTF-8, raison sur plusieurs lignes, « Deconnexion » vue par le reseau)
+f15f7f1604317da6458df20b0366fb3568865d29 ce1f6dc5aca1ed483353c524091b163db9fe590c Code 1.0.6 : Linux a 100 % (Wayland a echelle fractionnaire, repli X11), la page qui s'adapte a toute taille, et publier_code refuse le non-committe
+adcf7db0def0ca8e090268aeb467daf097975d67 31e3c3d5494771632151acd1415e516fe2dbd933 Code 1.0.6 (suite, relecture de 5b) : le repli X11 sans piege (AppImage, pas de XWayland), et les outils de la page GitHub
+3380e7a9ad97e93fc5b61baa61ab2304d2db2747 24919d18444eb6e2380e5374d527658857761c1c publier_depot.js : les tirets interdits ecrits par leur code, jamais en clair
+0687c22961bdc0120551a4d610752158cb7a072f e48c0a965a60f18d75006dc3a3582a1734942b55 Releases publiques pour les joueurs : titres et textes sans nom d'outil ni de personne, « installateur » en Latest
+ac4709ad389bfc464bd1ac2c4d428985be8cfbb5 80c68cad47eadd4c5fdbe330dc9c49f6a493b35a Code 1.0.7 (pas encore publie) : les messages relus par 00, le staff pour joindre l'equipe, le rapport de plantage recopie
+c5618cbb6e6d5c1fd94a142d99c4f5664ca582d4 1bf484e570b7c50e00e1e5fa2a781285a338510a Code 1.0.7 (suite) : le bouton « Le journal du jeu (pour le staff) », et la phrase du plantage qui le cite
+13e4f19edd857e3b6b7246a9164b009bfa18eee5 e34a4e519e1d503adfaf38678df07aaf5f8d1a7b Code 1.0.7 (candidat, pas publie) : Linux en X11 (XWayland) d'abord, Wayland natif seulement sans XWayland
+143e5cf3042ba4f8ebf1dfcb1b4137e9ad015993 4bc19301f33c3b8ffe914d05b496c3db8af6c387 Code 1.0.7 (candidat) : X11 des que DISPLAY existe, point ; ELECTRON_OZONE_PLATFORM_HINT n'est plus ecoute
+e39c9b110851529f735c15702db986f46c040a04 e55d44af67a004cb0432489da639e6a651ff795e gitignore : plateformes/linux/code_essai (le code d'essai 1.0.8 signe par une cle d'essai, pour la course Linux de cc)
+732251662368f2cb9b38554d64b5653c8d984577 49486defd52622386d0dbd22bd8df31316c5cef0 Code 1.0.7 (candidat) : AppImage avec FUSE, jamais app.relaunch ; garde-fou contre toute relance qui meurt
+7137b279297ef329e7eba8050a2896c62cd59bce ec27177247a26dc6913342017553c7d95d694250 Publication du 25/09 vers 19:30 : code 1.0.7, paquets Linux 1.0.7, page GitHub d'ae, releases publiques, Latest
+34c8f93a78d6a0e1d486c6a7d72a5b8d4c399534 a190d47ddd6f2f9e0952091d3821c55877974f2e publier_autres_systemes.js : plus de « version d'essai » pour Linux dans la page composee (decision de Florian)
+53197017c3b6e02e2e94f249e56935c769c24e1a 7f705986cfc9c15bda44ee26f5039bcb8c98f74c Mise en ligne 18 publiee pour les joueurs : casinocompagnons 1.3.0 (le Poussin des nuages), nouvelles de 00
+815eb475014b02d97ea3489462d9a9ecd38b5068 c2a0a5de7797bc252b5325bc0ac944a18a8d3e81 fabriquer_manifeste.js --sans-nouvelle : une retouche sans rien a annoncer aux joueurs (regle de Florian), l'historique reste, jamais le LISEZMOI en secours
+1f225b087725789415b008cc9b0fc14fc6533a81 6aeef758fdde9178865501e227577cf10666940c Sources de ce qui est publie : paquets Linux 1.0.7 de cc (config, installer.sh, docker) et page GitHub d'ae (README, page_installateur.md, images)
+6dbfbbff6a682023f07bd84c64f84e9012019521 f82b88a27765c29f59010b11a1e3f01c6b651935 Mise en ligne 20 publiee pour les joueurs : casinocompagnons 1.4.0 (Meduse de lune, Chouette flocon) et casinoboss 1.0.12, nouvelles de e3 (4 lignes)

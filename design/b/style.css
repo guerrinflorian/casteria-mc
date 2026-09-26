@@ -1,0 +1,138 @@
+/* Proposition B : « Le soir sur l'ile ». L'image en grand, comme un launcher de jeu : le logo et une pancarte en
+   planches de sapin pour le serveur (en haut a gauche), les nouvelles sur un parchemin enroule entre deux batons
+   (a droite), JOUER en bas a gauche sur l'ombre du soir. */
+
+.fond {
+  position: absolute; inset: -12px;
+  background: url("../commun/fond_palais.png") 30% 45% / cover no-repeat;
+  filter: blur(2.5px) brightness(.82) saturate(1.2) sepia(.18);
+}
+.fond::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(22, 12, 5, .82) 0%, rgba(22, 12, 5, .35) 42%, rgba(22, 12, 5, .15) 60%, rgba(22, 12, 5, .7) 100%),
+    linear-gradient(180deg, rgba(22, 12, 5, .45) 0%, transparent 30%, transparent 55%, rgba(22, 12, 5, .9) 100%),
+    linear-gradient(160deg, rgba(255, 160, 70, .16), rgba(255, 110, 40, .08) 50%, transparent);
+}
+
+/* la barre de titre se fond dans l'image */
+.barre-titre { box-shadow: none; }
+.barre-titre::before { background: linear-gradient(180deg, rgba(14, 8, 3, .7), rgba(14, 8, 3, 0)); }
+
+/* ---------- en haut a gauche : le logo, la devise, la pancarte ---------- */
+.haut { position: absolute; left: 30px; top: 40px; display: flex; align-items: flex-start; }
+.logo { width: 214px; height: 214px; image-rendering: auto; filter: drop-shadow(0 8px 14px rgba(0, 0, 0, .6)); }
+.haut-droite { margin: 34px 0 0 10px; width: 400px; }
+.devise {
+  margin: 0; font-family: "Lilita One", sans-serif; font-size: 34px; line-height: 1.05; letter-spacing: .5px;
+  color: #FFF1CF; text-shadow: 0 3px 0 #1d0f05, 0 0 18px rgba(0, 0, 0, .55);
+}
+.motd { margin: 8px 0 0; font-size: 15px; font-weight: 600; text-shadow: 0 2px 0 rgba(0, 0, 0, .7); }
+.c-vert { color: #8FE06B; }
+.c-jaune { color: #FFE066; }
+
+/* la pancarte suspendue a deux chaines */
+.pancarte-accroche { position: relative; height: 22px; margin-top: 14px; width: 360px; }
+.pancarte-accroche i {
+  position: absolute; top: 0; width: 6px; height: 22px;
+  background: repeating-linear-gradient(180deg, #8b8f96 0 4px, #4d5057 4px 6px, #b7bcc4 6px 8px, #4d5057 8px 11px);
+  box-shadow: 1px 0 0 #2b2d31, -1px 0 0 #2b2d31;
+}
+.pancarte-accroche i:first-child { left: 36px; }
+.pancarte-accroche i:last-child { right: 36px; }
+.pancarte {
+  width: 360px; padding: 12px 16px 12px;
+  box-shadow: inset 0 0 0 3px #3F2612, inset 0 0 0 6px rgba(255, 220, 160, .18), 0 12px 22px rgba(0, 0, 0, .55);
+  color: #FFF1CF;
+  transform-origin: 50% -22px;
+  animation: balance 7s ease-in-out infinite;
+}
+@keyframes balance { 25% { transform: rotate(.5deg); } 75% { transform: rotate(-.5deg); } }
+.pancarte-ligne { display: flex; align-items: center; gap: 10px; }
+.pancarte-mot { font-family: "Lilita One", sans-serif; font-size: 23px; letter-spacing: .5px; text-shadow: 0 2px 0 #2a1709; }
+.pancarte .latence { margin-left: auto; }
+.pancarte-phrase { margin: 4px 0 10px; font-size: 14px; color: #F3DFB6; text-shadow: 0 1px 0 #2a1709; }
+.pancarte-phrase b { font-size: 16px; color: #fff; }
+.tetes { display: flex; }
+.tetes .tete { width: 30px; height: 30px; margin-right: -4px; box-shadow: 0 0 0 2px #2a1709; transition: transform .15s ease; }
+.tetes .tete:hover { transform: translateY(-3px); z-index: 1; }
+.tetes-plus {
+  margin-left: 12px; height: 30px; padding: 0 8px; display: grid; place-items: center;
+  background: rgba(20, 10, 4, .45); box-shadow: 0 0 0 2px #2a1709; font-size: 13px; font-weight: 700;
+}
+
+/* ---------- a droite : le parchemin enroule ---------- */
+.rouleau { position: absolute; right: 30px; top: 50px; bottom: 34px; width: 372px; display: flex; flex-direction: column; filter: drop-shadow(0 14px 20px rgba(0, 0, 0, .55)); }
+.baton {
+  height: 22px; margin: 0 -14px; flex: none; position: relative; z-index: 1;
+  background: url("../commun/textures/stripped_dark_oak_log.png") 0 0 / 48px 48px; image-rendering: pixelated;
+  box-shadow: inset 0 3px 0 rgba(255, 255, 255, .18), inset 0 -4px 0 rgba(0, 0, 0, .4), 0 3px 4px rgba(0, 0, 0, .4);
+}
+.baton::before, .baton::after {
+  content: ""; position: absolute; top: -4px; width: 12px; height: 30px; background: var(--or-fonce);
+  box-shadow: inset 0 3px 0 var(--or-clair), inset 0 -4px 0 #6d4d0c;
+}
+.baton::before { left: -8px; }
+.baton::after { right: -8px; }
+.rouleau-feuille {
+  flex: 1; overflow: hidden; padding: 16px 20px 10px;
+  box-shadow: inset 0 14px 12px -10px rgba(90, 55, 20, .5), inset 0 -14px 12px -10px rgba(90, 55, 20, .5);
+}
+.rouleau-feuille .zone-phrase { margin-bottom: 12px; }
+.derniere header { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+.sceau {
+  width: 46px; height: 46px; flex: none; display: grid; place-items: center; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #d9564a, var(--ruban) 55%, #7d2019);
+  box-shadow: 0 0 0 3px rgba(125, 32, 25, .35), 0 3px 4px rgba(0, 0, 0, .3);
+  font-family: "Lilita One", sans-serif; font-size: 20px; color: #FFE1CF; text-shadow: 0 2px 0 #5a120d;
+}
+.derniere-titre { margin: 0; font-family: "Lilita One", sans-serif; font-size: 22px; color: var(--bois); }
+.derniere time { font-size: 13px; color: var(--encre-douce); }
+.derniere ul { list-style: none; margin: 0; padding: 0; }
+.derniere li { display: flex; gap: 10px; font-size: 15px; font-weight: 400; line-height: 1.35; margin: 8px 0; }
+.derniere li img { width: 24px; height: 24px; flex: none; margin-top: -2px; }
+.avant { display: flex; align-items: center; gap: 10px; margin: 14px 0 6px; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--encre-douce); }
+.avant::after { content: ""; flex: 1; height: 2px; background: repeating-linear-gradient(90deg, rgba(107, 68, 35, .45) 0 6px, transparent 6px 10px); }
+.anciennes { list-style: none; margin: 0; padding: 0; }
+.anciennes li {
+  display: flex; align-items: center; gap: 10px; padding: 7px 6px; font-size: 14px; font-weight: 400; line-height: 1.25;
+  cursor: pointer; transition: background .15s ease;
+}
+.anciennes li:hover { background: rgba(215, 164, 33, .16); }
+.anciennes time { margin-left: auto; font-size: 12px; color: var(--encre-douce); flex: none; }
+.sceau.petit {
+  width: 28px; height: 28px; font-size: 13px;
+  background: radial-gradient(circle at 35% 30%, #e7c35a, var(--or) 55%, var(--or-fonce));
+  color: #5a3d06; text-shadow: 0 1px 0 rgba(255, 255, 255, .4); box-shadow: 0 2px 3px rgba(0, 0, 0, .25);
+}
+
+/* ---------- en bas a gauche : jouer ---------- */
+.jouer-zone { position: absolute; left: 34px; bottom: 44px; width: 560px; }
+.joueur { display: flex; align-items: center; gap: 14px; }
+.case {
+  width: 60px; height: 60px; display: grid; place-items: center; flex: none;
+  background: url("../commun/textures/case.png") 0 0 / 60px 60px; image-rendering: pixelated;
+}
+.case img { width: 44px; height: 44px; }
+.jouer-zone .zone-titre.gagner { color: var(--vert-clair); text-shadow: 0 2px 0 #140a03; font-size: 13px; }
+.jouer-zone .zone-titre::after { max-width: 160px; }
+.joueur-nom { margin: 2px 0 0; font-family: "Lilita One", sans-serif; font-size: 28px; color: #FFF1CF; text-shadow: 0 2px 0 #140a03; }
+.etat { margin: 12px 0 10px; font-size: 15px; font-weight: 600; color: #FFF1CF; text-shadow: 0 2px 0 #140a03; }
+.jauge { margin: -2px 0 12px; width: 440px; }
+[data-scene] { display: none; }
+body[data-etat="pret"] [data-scene="pret"], body[data-etat="maj"] [data-scene="maj"] { display: block; }
+.boutons { display: flex; gap: 12px; align-items: stretch; }
+.jouer {
+  width: 340px; height: 92px; border-width: 20px; border-image-width: 20px;
+  font-family: "Lilita One", sans-serif; font-size: 46px; letter-spacing: 4px;
+  text-shadow: 0 3px 0 #1F5A17, 0 0 1px #1F5A17;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .55), 0 0 40px rgba(108, 192, 74, .22);
+}
+.jouer:hover { filter: brightness(1.1) saturate(1.1); box-shadow: 0 8px 22px rgba(0, 0, 0, .55), 0 0 50px rgba(108, 192, 74, .38); }
+body[data-etat="maj"] .jouer { border-image-source: url("../commun/textures/bouton_inactif.png"); color: #5f5a50; text-shadow: 0 2px 0 rgba(255, 255, 255, .35); font-size: 26px; letter-spacing: 1px; box-shadow: 0 8px 22px rgba(0, 0, 0, .55); }
+.reglages { width: 92px; height: 92px; border-width: 18px; border-image-width: 18px; }
+.engrenage { width: 34px; height: 34px; shape-rendering: crispEdges; color: var(--bois); }
+
+.pied { position: absolute; left: 36px; bottom: 14px; display: flex; gap: 12px; font-size: 12px; color: rgba(243, 223, 182, .7); }
+.pied .lien { text-decoration: underline dotted; text-underline-offset: 3px; cursor: pointer; }
+.pied .lien:hover { color: var(--or-clair); }

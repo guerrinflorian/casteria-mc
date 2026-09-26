@@ -1,0 +1,22 @@
+{
+  "portablemc": "5.0.5",
+  "source": "https://github.com/theorzr/portablemc/releases/tag/v5.0.5 (signatures PGP verifiees, empreinte F659B0F0B84A26CAC635D72948CAEE8DC3456B2F)",
+  "fichiers": {
+    "win32-x64/portablemc.exe": {
+      "sha256": "1af06cedeaa17432047e76c04b73b9af4e3161c90a8b91324aeb3ad288604f41",
+      "taille": 9501696
+    },
+    "linux-x64/portablemc": {
+      "sha256": "18610960930aeec1bf52df12197bbb22cdb251571b5556bafdb8ee00e0c4d151",
+      "taille": 11388592
+    },
+    "darwin-x64/portablemc": {
+      "sha256": "065c01dc7b5a3166febbe9dc9a4893a0db981a2cc0aabfdf2da665c5d55101a2",
+      "taille": 10714968
+    },
+    "darwin-arm64/portablemc": {
+      "sha256": "62b01f25645ad299ea21e52de703d308bc6d4342f96b45e6910705771534bbae",
+      "taille": 9262816
+    }
+  }
+}

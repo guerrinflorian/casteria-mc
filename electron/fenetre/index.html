@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'">
+  <title>Casteria</title>
+  <!-- La page du launcher (ae), direction « Le soir sur l'île » choisie par Florian le 25/09/2026. Elle suit
+       CONTRAT_FENETRE.md : les id, data-action, data-aller et data-ecran-de sont lus et remplis par app.js (a7). -->
+  <link rel="stylesheet" href="theme/theme.css">
+</head>
+<body data-ecran="accueil" data-etat="pret" data-serveur="inconnu">
+  <!-- Toute taille de fenêtre : Electron zoome la page (min(largeur / 1100, hauteur / 700)), qui voit donc au moins
+       1100 x 700. Les écrans vivent dans une scène fixe de 1100 x 700, centrée ; le fond-autour remplit le reste de la
+       fenêtre, la barre de titre et la bande de mise à jour prennent toute la largeur. -->
+  <div class="fond-autour" aria-hidden="true"></div>
+
+  <header class="barre-titre">
+    <img class="barre-icone" src="theme/images/icone-32.png" alt="" draggable="false">
+    <span class="barre-nom">Casteria</span>
+    <span class="barre-espace"></span>
+    <button type="button" class="barre-bouton" data-action="reduire" aria-label="Réduire" title="Réduire">
+      <svg viewBox="0 0 12 12" aria-hidden="true"><rect x="1" y="8" width="10" height="2" fill="currentColor"/></svg>
+    </button>
+    <button type="button" class="barre-bouton fermer" data-action="fermer" aria-label="Fermer" title="Fermer">
+      <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h2v2H1zM3 3h2v2H3zM5 5h2v2H5zM7 7h2v2H7zM9 9h2v2H9zM9 1h2v2H9zM7 3h2v2H7zM3 7h2v2H3zM1 9h2v2H1z" fill="currentColor"/></svg>
+    </button>
+  </header>
+
+  <!-- la mise à jour du launcher lui-même (body[data-maj-launcher] : telechargement, pret, installateur) -->
+  <div class="bande-maj" role="status">
+    <svg class="bande-icone" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 0h2v6h2v2H8v1H7v1H5V9H4V8H3V6h2zM1 10h10v2H1z" fill="currentColor"/></svg>
+    <span class="bande-texte" id="maj-launcher-texte"></span>
+    <span class="bande-jauge" aria-hidden="true"><i></i></span>
+    <button type="button" class="bouton bouton-bois bande-bouton" data-action="redemarrer">Redémarrer</button>
+    <button type="button" class="bouton bouton-bois bande-bouton" data-action="nouvel-installateur">Télécharger</button>
+  </div>
+
+  <div class="scene">
+  <div class="fond" aria-hidden="true"></div>
+
+  <!-- ================= ACCUEIL ================= -->
+  <section class="ecran accueil" data-ecran-de="accueil">
+
+    <!-- le logo, la devise, et le serveur sur sa pancarte -->
+    <div class="haut">
+      <img class="logo" src="theme/images/logo-512.png" alt="Casteria" draggable="false">
+      <div class="haut-droite">
+        <!-- le titre et la phrase de Florian (25/09) : les groupes de mots restent ensemble (espaces insécables) -->
+        <h1 class="devise">Casteria, <span class="ensemble">ton île dans le ciel</span></h1>
+        <p class="accroche">Un serveur Skyblock&nbsp;moddé&nbsp;: ton&nbsp;île, tes&nbsp;machines, tes&nbsp;bêtes et&nbsp;des&nbsp;boss à&nbsp;affronter.</p>
+        <div class="pancarte-accroche" aria-hidden="true"><i></i><i></i></div>
+        <section class="pancarte" aria-label="Le serveur">
+          <div class="pancarte-ligne">
+            <span class="voyant" aria-hidden="true"></span>
+            <span class="pancarte-mot" id="serveur-etat"></span>
+            <span class="latence" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+            <span class="latence-ms" id="serveur-latence"></span>
+          </div>
+          <p class="pancarte-phrase" id="serveur-joueurs"></p>
+          <ul class="tetes" id="serveur-noms" hidden></ul>
+        </section>
+      </div>
+    </div>
+
+    <!-- les nouvelles, sur un parchemin enroulé -->
+    <aside class="rouleau">
+      <div class="baton" aria-hidden="true"></div>
+      <div class="rouleau-feuille">
+        <h2 class="zone-titre depenser">Nouvelles</h2>
+        <p class="zone-phrase">Ce qui change à chaque mise en ligne.</p>
+        <div class="nouvelles defile" id="nouvelles" hidden></div>
+        <p class="nouvelles-vide attente">Les nouvelles arrivent...</p>
+        <p class="nouvelles-vide sans-internet">Les nouvelles reviendront avec internet.</p>
+        <template id="modele-nouvelle">
+          <article class="nouvelle">
+            <details>
+              <summary>
+                <span class="sceau" data-champ="numero"></span>
+                <span class="nouvelle-tete">
+                  <span class="nouvelle-titre" data-champ="titre"></span>
+                  <time data-champ="date"></time>
+                </span>
+              </summary>
+              <ul data-champ="lignes"></ul>
+            </details>
+          </article>
+        </template>
+      </div>
+      <div class="baton" aria-hidden="true"></div>
+    </aside>
+
+    <!-- jouer -->
+    <section class="jouer-zone">
+      <div class="joueur">
+        <span class="case"><img src="theme/images/tetes/tete_0.png" alt="" draggable="false"></span>
+        <div class="joueur-texte">
+          <h2 class="zone-titre gagner">Jouer</h2>
+          <p class="joueur-avant">Tu joues en tant que</p>
+          <p class="joueur-nom" id="pseudo-affiche"></p>
+        </div>
+      </div>
+      <p class="zone-phrase jouer-phrase">Un clic : ton jeu se met à jour, puis tu arrives directement sur Casteria.</p>
+      <p class="etat" id="etat" role="status"></p>
+      <div class="jauge" aria-hidden="true"><i></i></div>
+      <p class="probleme" id="probleme" role="alert" hidden></p>
+      <div class="boutons">
+        <button type="button" class="bouton bouton-vert jouer" data-action="jouer"><span id="jouer-texte">JOUER</span></button>
+        <button type="button" class="bouton bouton-bois reglages" data-aller="reglages">
+          <svg class="engrenage" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 0h2v2H5zM5 10h2v2H5zM0 5h2v2H0zM10 5h2v2h-2zM1 1h2v2H1zM9 1h2v2H9zM1 9h2v2H1zM9 9h2v2H9zM3 2h6v1h1v6H9v1H3V9H2V3h1zM5 4v4h2V4z" fill="currentColor" fill-rule="evenodd"/></svg>
+          Réglages
+        </button>
+      </div>
+    </section>
+
+    <footer class="pied"><span id="version"></span><span class="pied-point" aria-hidden="true">·</span><span id="edition"></span></footer>
+  </section>
+
+  <!-- ================= RÉGLAGES ================= -->
+  <section class="ecran reglages-ecran" data-ecran-de="reglages" hidden>
+    <div class="grand-rouleau">
+      <div class="baton" aria-hidden="true"></div>
+      <div class="rouleau-feuille">
+        <div class="reglages-tete">
+          <button type="button" class="bouton bouton-bois retour" data-aller="accueil">
+            <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v2H5zM3 3h2v2H3zM1 5h10v2H1zM3 7h2v2H3zM5 9h2v2H5z" fill="currentColor"/></svg>
+            Retour
+          </button>
+          <h1>Réglages</h1>
+        </div>
+        <div class="reglages-zones">
+          <section class="zone">
+            <h2 class="zone-titre regler">Ton pseudo</h2>
+            <p class="zone-phrase">Le nom que les autres joueurs verront en jeu. Garde toujours le même : ton île et tes jetons sont à ce nom.</p>
+            <div class="champ-pseudo">
+              <span class="case petite"><img src="theme/images/tetes/tete_0.png" alt="" draggable="false"></span>
+              <input id="pseudo" type="text" maxlength="16" autocomplete="off" spellcheck="false" placeholder="Ton pseudo">
+            </div>
+            <!-- du texte seul (app.js garde ce texte et le remet apres une erreur) -->
+            <p class="aide" id="pseudo-aide">De 3 à 16 caractères : lettres sans accent, chiffres et _&nbsp;(le&nbsp;tiret&nbsp;du&nbsp;bas). Attention&nbsp;aux&nbsp;majuscules&nbsp;: écris ton&nbsp;pseudo exactement comme d'habitude.</p>
+            <button type="button" class="bouton bouton-rouge confirmer-pseudo" id="pseudo-confirmer" data-action="confirmer-pseudo" hidden>Changer quand même</button>
+          </section>
+          <section class="zone">
+            <h2 class="zone-titre regler">La mémoire du jeu</h2>
+            <p class="zone-phrase">Plus de mémoire, moins de ralentissements. Si tu hésites, garde la valeur conseillée.</p>
+            <div class="memoire">
+              <input id="memoire" type="range" min="2" max="8" step="1" aria-label="Mémoire du jeu en Go">
+              <span class="memoire-valeur" id="memoire-valeur"></span>
+            </div>
+            <p class="aide" id="memoire-aide"></p>
+          </section>
+          <section class="zone dossiers">
+            <h2 class="zone-titre regler">Tes dossiers</h2>
+            <p class="zone-phrase">Pour retrouver tes captures d'écran, ou envoyer un journal au staff.</p>
+            <div class="dossiers-boutons">
+              <button type="button" class="bouton bouton-bois" data-action="ouvrir-jeu">Ouvrir le dossier du jeu</button>
+              <button type="button" class="bouton bouton-bois" data-action="ouvrir-journaux">Le journal du jeu (pour le staff)</button>
+            </div>
+          </section>
+        </div>
+      </div>
+      <div class="baton" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- ================= BIENVENUE ================= -->
+  <section class="ecran bienvenue" data-ecran-de="bienvenue" hidden>
+    <img class="logo" src="theme/images/logo-512.png" alt="Casteria" draggable="false">
+    <h1>Bienvenue sur Casteria !</h1>
+    <p class="bienvenue-phrase">Choisis ton pseudo : c'est le nom que les autres joueurs verront en jeu. Garde toujours le même : ton île et tes jetons seront à ce nom.</p>
+    <div class="champ-pseudo grand">
+      <span class="case"><img src="theme/images/tetes/tete_0.png" alt="" draggable="false"></span>
+      <input id="bienvenue-pseudo" type="text" maxlength="16" autocomplete="off" spellcheck="false" placeholder="Ton pseudo">
+    </div>
+    <p class="aide" id="bienvenue-aide">De 3 à 16 caractères : lettres sans accent, chiffres et _&nbsp;(le&nbsp;tiret&nbsp;du&nbsp;bas). Attention&nbsp;aux&nbsp;majuscules&nbsp;: écris ton&nbsp;pseudo exactement comme d'habitude.</p>
+    <button type="button" class="bouton bouton-vert commencer" data-action="commencer">C'EST PARTI</button>
+  </section>
+
+  </div>
+
+  <script src="maquette.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

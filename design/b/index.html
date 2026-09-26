@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Casteria</title>
+  <link rel="stylesheet" href="../commun/base.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<!-- Proposition B : « Le soir sur l'ile ». Un launcher de jeu : l'image en grand, une pancarte pour le serveur, les
+     nouvelles sur un parchemin enroule, JOUER en bas a gauche. -->
+<body data-ecran="accueil" data-etat="pret" data-serveur="en-ligne">
+  <div class="fond" aria-hidden="true"></div>
+
+  <header class="barre-titre">
+    <img src="../commun/logo-512.png" alt="">
+    <span class="nom">Casteria</span>
+    <span class="espace"></span>
+    <span class="fenetre-bouton" title="Réduire"><svg viewBox="0 0 12 12"><rect x="1" y="8" width="10" height="2" fill="currentColor"/></svg></span>
+    <span class="fenetre-bouton fermer" title="Fermer"><svg viewBox="0 0 12 12"><path d="M1 1h2v2H1zM3 3h2v2H3zM5 5h2v2H5zM7 7h2v2H7zM9 9h2v2H9zM9 1h2v2H9zM7 3h2v2H7zM3 7h2v2H3zM1 9h2v2H1z" fill="currentColor"/></svg></span>
+  </header>
+
+  <section class="haut">
+    <img class="logo" src="../commun/logo-512.png" alt="Casteria">
+    <div class="haut-droite">
+      <p class="devise">Le Skyblock en français</p>
+      <p class="motd"><span class="c-vert">Ton île, tes machines, 15 boss :</span> <span class="c-jaune">bâtis ta fortune !</span></p>
+
+      <!-- zone 1 : le serveur, une pancarte suspendue -->
+      <div class="pancarte-accroche" aria-hidden="true"><i></i><i></i></div>
+      <section class="pancarte planches-sapin">
+        <div class="pancarte-ligne">
+          <span class="voyant"></span>
+          <span class="pancarte-mot">Serveur ouvert</span>
+          <span class="latence" title="38 ms"><i></i><i></i><i></i><i></i></span>
+        </div>
+        <p class="pancarte-phrase"><b>12</b> joueurs sur 60 en ce moment</p>
+        <div class="tetes">
+          <img class="tete" src="../commun/tetes/alex.png" title="Mila_Craft">
+          <img class="tete" src="../commun/tetes/steve.png" title="Tom_du_13">
+          <img class="tete" src="../commun/tetes/sunny.png" title="Lulu44">
+          <img class="tete" src="../commun/tetes/kai.png" title="Nathan_B">
+          <img class="tete" src="../commun/tetes/noor.png" title="Zoe_Builds">
+          <img class="tete" src="../commun/tetes/efe.png" title="Kylian_07">
+          <img class="tete" src="../commun/tetes/makena.png" title="Ines_mc">
+          <img class="tete" src="../commun/tetes/zuri.png" title="Leo_Minecraft">
+          <span class="tetes-plus">+4</span>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <!-- zone 2 : les nouvelles, sur un parchemin enroule -->
+  <aside class="rouleau">
+    <div class="baton" aria-hidden="true"></div>
+    <div class="rouleau-feuille parchemin">
+      <h2 class="zone-titre depenser">Nouvelles</h2>
+      <p class="zone-phrase">Ce qui change à chaque mise en ligne.</p>
+      <article class="derniere">
+        <header>
+          <span class="sceau">17</span>
+          <div>
+            <p class="derniere-titre">Mise en ligne 17</p>
+            <time>Aujourd'hui, 25/09/2026</time>
+          </div>
+        </header>
+        <ul>
+          <li><img src="../commun/icones/lanterne.png" alt="">La garde du palais : au spawn, plus rien ne pousse, ne brûle ni n'explose.</li>
+          <li><img src="../commun/icones/credits.png" alt="">Dans la boutique, les réductions ne cachent plus l'image des articles.</li>
+        </ul>
+      </article>
+      <p class="avant">Avant</p>
+      <ul class="anciennes">
+        <li><span class="sceau petit">16</span><span>Les points de vie au-dessus des créatures, et /etabli à distance.</span><time>25/09</time></li>
+        <li><span class="sceau petit">15</span><span>Trois familiers et trois bêtes exclusifs.</span><time>25/09</time></li>
+        <li><span class="sceau petit">14</span><span>Le chat, les échanges et la liste des joueurs.</span><time>25/09</time></li>
+      </ul>
+    </div>
+    <div class="baton" aria-hidden="true"></div>
+  </aside>
+
+  <!-- zone 3 : jouer -->
+  <section class="jouer-zone">
+    <div class="joueur">
+      <span class="case"><img class="pixel" src="../commun/tetes/steve.png" alt=""></span>
+      <div class="joueur-texte">
+        <h2 class="zone-titre gagner">Jouer</h2>
+        <p class="joueur-nom">_Floskyl_</p>
+      </div>
+    </div>
+    <p class="etat" data-scene="pret">Ton jeu est à jour. Un clic, et tu es sur ton île.</p>
+    <p class="etat" data-scene="maj">Téléchargement des fichiers de Casteria : 42 %</p>
+    <div class="jauge" data-scene="maj"><i></i></div>
+    <div class="boutons">
+      <span class="bouton bouton-vert jouer"><span data-scene="pret">JOUER</span><span data-scene="maj">EN ROUTE...</span></span>
+      <span class="bouton bouton-bois reglages" title="Réglages"><svg class="engrenage" viewBox="0 0 12 12"><path d="M5 0h2v2H5zM5 10h2v2H5zM0 5h2v2H0zM10 5h2v2h-2zM1 1h2v2H1zM9 1h2v2H9zM1 9h2v2H1zM9 9h2v2H9zM3 2h6v1h1v6H9v1H3V9H2V3h1zM5 4v4h2V4z" fill="currentColor" fill-rule="evenodd"/></svg></span>
+    </div>
+  </section>
+
+  <footer class="pied">
+    <span>Launcher 0.2.0</span>
+    <span class="point">·</span>
+    <span class="lien">Dossier du jeu</span>
+    <span class="lien">Journaux</span>
+  </footer>
+  <script>
+    if (location.hash === '#maj') { document.body.dataset.etat = 'maj'; document.body.style.setProperty('--progression', '0.42'); }
+  </script>
+</body>
+</html>

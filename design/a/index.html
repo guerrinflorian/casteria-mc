@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Casteria</title>
+  <link rel="stylesheet" href="../commun/base.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<!-- Proposition A : « Le palais ». Les ecrans du serveur, en grand : parchemin, cadre en bois, ruban rouge. -->
+<body data-ecran="accueil" data-etat="pret" data-serveur="en-ligne">
+  <div class="fond" aria-hidden="true"></div>
+
+  <header class="barre-titre planches">
+    <img src="../commun/logo-512.png" alt="">
+    <span class="nom">Casteria</span>
+    <span class="espace"></span>
+    <span class="fenetre-bouton" title="Réduire"><svg viewBox="0 0 12 12"><rect x="1" y="8" width="10" height="2" fill="currentColor"/></svg></span>
+    <span class="fenetre-bouton fermer" title="Fermer"><svg viewBox="0 0 12 12"><path d="M1 1h2v2H1zM3 3h2v2H3zM5 5h2v2H5zM7 7h2v2H7zM9 9h2v2H9zM9 1h2v2H9zM7 3h2v2H7zM3 7h2v2H3zM1 9h2v2H1z" fill="currentColor"/></svg></span>
+  </header>
+
+  <main class="scene">
+    <aside class="gauche">
+      <img class="logo" src="../commun/logo-512.png" alt="Casteria">
+      <p class="devise">Le Skyblock en français</p>
+
+      <!-- zone 1 : le serveur, en direct -->
+      <section class="serveur parchemin carte">
+        <h2 class="zone-titre regler">Le serveur</h2>
+        <p class="zone-phrase">Qui joue en ce moment.</p>
+        <div class="serveur-etat">
+          <span class="voyant"></span>
+          <span class="serveur-mot">Ouvert</span>
+          <span class="serveur-joueurs"><b>12</b> joueurs sur 60</span>
+          <span class="latence" title="38 ms"><i></i><i></i><i></i><i></i></span>
+        </div>
+        <div class="tetes">
+          <img class="tete" src="../commun/tetes/alex.png" title="Mila_Craft">
+          <img class="tete" src="../commun/tetes/steve.png" title="Tom_du_13">
+          <img class="tete" src="../commun/tetes/sunny.png" title="Lulu44">
+          <img class="tete" src="../commun/tetes/kai.png" title="Nathan_B">
+          <img class="tete" src="../commun/tetes/noor.png" title="Zoe_Builds">
+          <img class="tete" src="../commun/tetes/efe.png" title="Kylian_07">
+          <img class="tete" src="../commun/tetes/makena.png" title="Ines_mc">
+          <span class="tetes-plus">+5</span>
+        </div>
+        <p class="motd"><span class="c-vert">Ton île, tes machines, 15 boss :</span> <span class="c-jaune">bâtis ta fortune !</span></p>
+      </section>
+    </aside>
+
+    <!-- zone 2 : les nouvelles -->
+    <section class="nouvelles cadre-bois">
+      <div class="nouvelles-tete">
+        <span class="ruban">Nouvelles</span>
+        <p class="zone-phrase">Ce qui change à chaque mise en ligne.</p>
+      </div>
+      <div class="nouvelles-liste defile">
+        <article class="edition recente">
+          <header>
+            <span class="edition-numero">Mise en ligne 17</span>
+            <span class="edition-neuf">Nouveau</span>
+            <time>25/09/2026</time>
+          </header>
+          <ul>
+            <li><img src="../commun/icones/lanterne.png" alt="">La garde du palais : au spawn, plus rien ne pousse, ne brûle ni n'explose.</li>
+            <li><img src="../commun/icones/credits.png" alt="">Dans la boutique, les réductions ne cachent plus l'image des articles.</li>
+          </ul>
+        </article>
+        <article class="edition">
+          <header>
+            <span class="edition-numero">Mise en ligne 16</span>
+            <time>25/09/2026</time>
+          </header>
+          <ul>
+            <li><img src="../commun/icones/coeur.png" alt="">Les points de vie au-dessus des bêtes, des monstres et des boss.</li>
+            <li><img src="../commun/icones/etabli.png" alt="">L'Établi de Casteria s'ouvre aussi à distance, avec /etabli.</li>
+            <li><img src="../commun/icones/credits.png" alt="">La boutique : 6 couleurs de pseudo, les œufs par 1 ou par 3.</li>
+          </ul>
+        </article>
+        <article class="edition">
+          <header>
+            <span class="edition-numero">Mise en ligne 15</span>
+            <time>25/09/2026</time>
+          </header>
+          <ul>
+            <li><img src="../commun/icones/plume.png" alt="">Trois familiers exclusifs : le Phénix d'or, la Baleine des étoiles, le Renard aux trois queues.</li>
+            <li><img src="../commun/icones/oeuf.png" alt="">Trois bêtes exclusives pour ton enclos, dont le Capybara doré.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- zone 3 : jouer -->
+  <footer class="socle planches">
+    <div class="joueur">
+      <span class="case"><img class="pixel" src="../commun/tetes/steve.png" alt=""></span>
+      <div>
+        <p class="joueur-avant">Tu joues en tant que</p>
+        <p class="joueur-nom">_Floskyl_</p>
+      </div>
+    </div>
+    <div class="jouer-milieu">
+      <h2 class="zone-titre gagner">Jouer</h2>
+      <p class="zone-phrase">Met ton jeu à jour, puis t'emmène sur Casteria.</p>
+      <p class="etat" data-scene="pret">Ton jeu est à jour : tu peux entrer.</p>
+      <p class="etat" data-scene="maj">Téléchargement des fichiers de Casteria : 42 %</p>
+      <div class="jauge" data-scene="maj"><i></i></div>
+    </div>
+    <div class="actions">
+      <span class="bouton bouton-bois reglages"><svg class="engrenage" viewBox="0 0 12 12"><path d="M5 0h2v2H5zM5 10h2v2H5zM0 5h2v2H0zM10 5h2v2h-2zM1 1h2v2H1zM9 1h2v2H9zM1 9h2v2H1zM9 9h2v2H9zM3 2h6v1h1v6H9v1H3V9H2V3h1zM5 4v4h2V4z" fill="currentColor" fill-rule="evenodd"/></svg>Réglages</span>
+      <span class="bouton bouton-vert jouer"><span data-scene="pret">JOUER</span><span data-scene="maj">EN ROUTE...</span></span>
+    </div>
+  </footer>
+  <script>
+    // la scene de la photo : #maj montre un telechargement en cours
+    if (location.hash === '#maj') { document.body.dataset.etat = 'maj'; document.body.style.setProperty('--progression', '0.42'); }
+  </script>
+</body>
+</html>

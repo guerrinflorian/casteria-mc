@@ -1,0 +1,4 @@
+Nouvelle commande /etabli : l'Établi de Casteria partout où tu es, dès le niveau 45 (ou plus tôt avec /avantages ou la /boutique).
+Les points de vie s'affichent au-dessus des bêtes, des monstres et des boss.
+Choisis la couleur de ton pseudo dans la /boutique. La liste des joueurs est maintenant rangée par niveau.
+Dans la /boutique, les commandes s'achètent aussi pour toujours, et les œufs de bêtes exclusives par 3.

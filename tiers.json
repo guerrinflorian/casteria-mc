@@ -1,0 +1,57 @@
+{
+  "_lisezmoi": "Les mods des autres auteurs ne sont JAMAIS sur notre hébergement : le manifeste pointe vers leur téléchargement officiel, avec l'empreinte sha256 de chaque source. Le premier site est le principal, les suivants servent de secours. Relevé le 25/09/2026 par serveurmc-a7 (Modrinth par empreinte, CurseForge par numéro de fichier), chaque source retéléchargée et vérifiée.",
+  "fichiers": {
+    "kubejs-neoforge-2101.7.2-build.377.jar": {
+      "projet": "KubeJS (LGPL-3.0), contient Better Advanced Tooltips",
+      "sources": [
+        {
+          "site": "Modrinth",
+          "url": "https://cdn.modrinth.com/data/umyGl7zF/versions/THIGFPwf/kubejs-neoforge-2101.7.2-build.377.jar",
+          "sha256": "df9a8458b1f83fed06ba54684977911795a5153a462b81a610895f5b1f2f0cbf",
+          "taille": 2294111,
+          "note": "même code que le paquet des joueurs, seule l'heure de compilation du MANIFEST.MF diffère (12:27:21 au lieu de 12:27:11)"
+        },
+        {
+          "site": "CurseForge (fichier 8843626)",
+          "url": "https://mediafilez.forgecdn.net/files/8843/626/kubejs-neoforge-2101.7.2-build.377.jar",
+          "sha256": "43b656bc2d4ce867141abb828c9481f080a38585b99bcfa07e54732a4976a601",
+          "taille": 2294111,
+          "note": "identique octet pour octet au jar du paquet des joueurs"
+        }
+      ]
+    },
+    "rhino-2101.2.8-build.91.jar": {
+      "projet": "Rhino (MPL-2.0)",
+      "sources": [
+        {
+          "site": "Modrinth",
+          "url": "https://cdn.modrinth.com/data/sk9knFPE/versions/SqkDvOLG/rhino-2101.2.8-build.91.jar",
+          "sha256": "1d53d962aa4dac54bcbb4f998c1845980cf194318f1d6b1580ea6ac15cce5ef3",
+          "taille": 980936
+        }
+      ]
+    },
+    "LibX-1.21.1-6.0.9.jar": {
+      "projet": "LibX (Apache-2.0)",
+      "sources": [
+        {
+          "site": "Modrinth",
+          "url": "https://cdn.modrinth.com/data/qEH6GYul/versions/CLe8cTHs/LibX-1.21.1-6.0.9.jar",
+          "sha256": "c19b085cf70dbdb5e17ba8530de0e5e1b08b0d6f2c8282b719d75fd31254b2ca",
+          "taille": 1259776
+        }
+      ]
+    },
+    "SkyblockBuilder-21.1.36.jar": {
+      "projet": "Skyblock Builder (Apache-2.0)",
+      "sources": [
+        {
+          "site": "Modrinth",
+          "url": "https://cdn.modrinth.com/data/por2AZc5/versions/gUAKfMuD/SkyblockBuilder-21.1.36.jar",
+          "sha256": "9e4255e8c378817549ca84edb78742657cf72839da4a04a2f557432867404bee",
+          "taille": 614190
+        }
+      ]
+    }
+  }
+}

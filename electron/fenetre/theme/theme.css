@@ -1,0 +1,460 @@
+/* Casteria, le launcher : le theme « Le soir sur l'île » (serveurmc-ae, 25/09/2026, choisi par Florian).
+   Les matieres sont celles des ecrans du serveur (casinoui) : parchemin, boutons pixel, case d'inventaire, et les
+   planches de Minecraft ; toujours en pixels nets (image-rendering: pixelated). Les polices sont celles des ecrans du
+   jeu (Fredoka, Lilita One : licence OFL, dans polices/). Rien n'est charge par internet.
+   Les etats viennent d'app.js (CONTRAT_FENETRE.md) : body[data-ecran], [data-etat], [data-serveur], --progression. */
+
+@font-face { font-family: "Fredoka"; src: url("polices/fredoka.ttf") format("truetype"); font-weight: 300 700; }
+@font-face { font-family: "Lilita One"; src: url("polices/lilita_one.ttf") format("truetype"); }
+
+:root {
+  --parchemin: #FFF8E7;
+  --parchemin-2: #F7EDD3;
+  --parchemin-3: #EAD9B2;
+  --bois: #6B4423;
+  --bois-clair: #8C5A2E;
+  --bois-fonce: #3F2612;
+  --or: #D7A421;
+  --or-fonce: #A57713;
+  --or-clair: #FFD75E;
+  --ruban: #B5352B;
+  --encre: #3A2614;
+  --encre-douce: #7A5B3E;
+  --creme: #FFF1CF;
+  --creme-douce: #F3DFB6;
+  --vert: #3E8E2F;
+  --vert-clair: #6CC04A;
+  --bleu: #3F7FB6;
+  --rouge: #B5352B;
+  --ombre-texte: 0 2px 0 #140a03;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; }
+body {
+  position: relative;
+  font-family: "Fredoka", sans-serif; font-weight: 500; font-size: 15px;
+  color: var(--encre); background: #1a0f07;
+  user-select: none; -webkit-font-smoothing: antialiased;
+}
+img { image-rendering: pixelated; }
+/* jamais un mot seul sur la derniere ligne d'un texte (« sur ton / île. », vu par 5b dans les nouvelles, qui viennent du
+   manifeste : on ne peut pas y mettre d'espaces insecables) : le navigateur equilibre les dernieres lignes */
+p, li, .aide, .zone-phrase { text-wrap: pretty; }
+button { font: inherit; color: inherit; background: none; margin: 0; }
+input { font: inherit; }
+
+/* ---------- toute taille de fenetre ----------
+   Electron zoome la page (z = min(largeur / 1100, hauteur / 700)) : elle voit au moins 1100 x 700 pixels CSS, exactement
+   dans un sens, plus dans l'autre. Les ecrans vivent dans la scene, fixe et centree ; le fond-autour (la meme photo,
+   plus floue et plus sombre) remplit le reste, et le fond regle de la scene s'y fond par ses bords. La barre de titre et
+   la bande de mise a jour prennent toute la largeur de la fenetre. */
+.scene { position: absolute; left: 50%; top: 50%; width: 1100px; height: 700px; transform: translate(-50%, -50%); z-index: 1; }
+.fond-autour {
+  position: absolute; inset: -40px; z-index: 0;
+  background: url("images/fond.png") 30% 42% / cover no-repeat;
+  filter: blur(14px) brightness(.62) saturate(1.1);
+}
+.fond-autour::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(22, 12, 5, .55) 100%); }
+/* plus large que 1100 x 700 : le fond de la scene s'efface sur ses cotes ; plus haut : en haut et en bas */
+@media (min-aspect-ratio: 1101/700) {
+  .scene .fond { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 90px, #000 calc(100% - 90px), transparent 100%); }
+}
+@media (max-aspect-ratio: 1099/700) {
+  .scene .fond { -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 90px, #000 calc(100% - 90px), transparent 100%); }
+}
+
+/* ---------- le fond : le palais en fin de journee ---------- */
+.fond {
+  position: absolute; inset: -12px; z-index: 0;
+  /* la prise de vue de cc (le palais au lever du soleil, qui se lit comme un soir) : le chateau est place dans le seul
+     trou de l'accueil, sous la pancarte et au-dessus de JOUER ; --fond-* pour le regler */
+  background: url("images/fond.png") var(--fond-x, 8%) var(--fond-y, 35%) / auto var(--fond-h, 860px) no-repeat;
+  filter: blur(var(--fond-flou, 2px)) brightness(.94) saturate(1.08);
+  transition: filter .6s ease;
+}
+.fond::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 59% 35%, rgba(255, 196, 120, .34), rgba(255, 150, 70, .12) 12%, transparent 26%),
+    linear-gradient(90deg, rgba(22, 12, 5, .78) 0%, rgba(22, 12, 5, .25) 36%, rgba(22, 12, 5, 0) 56%, rgba(22, 12, 5, .55) 100%),
+    linear-gradient(180deg, rgba(22, 12, 5, .5) 0%, transparent 28%, transparent 58%, rgba(22, 12, 5, .9) 100%);
+}
+/* reglages et bienvenue : le fond se retire derriere le parchemin */
+body[data-ecran="reglages"] .fond, body[data-ecran="bienvenue"] .fond { filter: blur(6px) brightness(.62) saturate(1.05); }
+
+.ecran { position: absolute; inset: 0; z-index: 1; animation: apparait .35s ease both; }
+@keyframes apparait { from { opacity: 0; transform: translateY(6px); } }
+
+/* ---------- la barre de titre (la fenetre n'a pas le cadre de Windows) ---------- */
+.barre-titre {
+  position: absolute; left: 0; top: 0; right: 0; height: 34px; z-index: 10;
+  display: flex; align-items: center; gap: 9px; padding-left: 10px;
+  background: linear-gradient(180deg, rgba(14, 8, 3, .72), rgba(14, 8, 3, 0));
+  -webkit-app-region: drag;
+}
+.barre-icone { width: 20px; height: 20px; }
+.barre-nom { font-family: "Lilita One", sans-serif; font-size: 17px; letter-spacing: 1px; color: var(--or-clair); text-shadow: 0 2px 0 #1b0f07; }
+.barre-espace { flex: 1; }
+.barre-bouton {
+  -webkit-app-region: no-drag;
+  width: 46px; height: 34px; border: 0; padding: 0; display: grid; place-items: center; cursor: pointer;
+  color: var(--parchemin-3); transition: background .15s ease, color .15s ease;
+}
+.barre-bouton:hover { background: rgba(255, 215, 94, .16); color: #fff; }
+.barre-bouton.fermer:hover { background: var(--rouge); }
+.barre-bouton svg { width: 12px; height: 12px; shape-rendering: crispEdges; }
+
+/* ---------- la bande de mise a jour du launcher, sous la barre de titre ----------
+   body[data-maj-launcher] : telechargement (une jauge), pret (Redemarrer), installateur (Telecharger). L'ecran descend
+   de la hauteur de la bande : rien n'est cache dessous. */
+.bande-maj {
+  display: none; position: absolute; left: 0; right: 0; top: 34px; height: 34px; z-index: 9;
+  align-items: center; gap: 12px; padding: 0 12px 0 16px;
+  background: var(--or); color: var(--encre);
+  box-shadow: inset 0 2px 0 var(--or-clair), inset 0 -3px 0 var(--or-fonce), 0 4px 10px rgba(0, 0, 0, .35);
+  font-size: 14px; font-weight: 600;
+  animation: bande-arrive .35s ease both;
+}
+@keyframes bande-arrive { from { transform: translateY(-8px); opacity: 0; } }
+body[data-maj-launcher] .bande-maj { display: flex; }
+body[data-maj-launcher] .ecran { top: 34px; }
+.bande-icone { width: 14px; height: 14px; flex: none; shape-rendering: crispEdges; color: var(--bois); }
+.bande-texte { flex: 1; min-width: 0; }
+.bande-jauge { display: none; position: relative; width: 180px; height: 12px; background: var(--bois-fonce); box-shadow: inset 0 0 0 2px #24150a; }
+.bande-jauge > i { position: absolute; left: 2px; top: 2px; bottom: 2px; width: calc((100% - 4px) * var(--progression-launcher, 0)); background: var(--parchemin); transition: width .3s ease; }
+body[data-maj-launcher="telechargement"] .bande-jauge { display: block; }
+/* (.bande-maj devant : la regle generale .bouton, plus bas, remettrait sinon le bouton a l'ecran) */
+.bande-maj .bande-bouton { display: none; height: 28px; border-width: 10px; border-image-width: 10px; padding: 0 8px; font-size: 13px; }
+body[data-maj-launcher="pret"] .bande-maj .bande-bouton[data-action="redemarrer"],
+body[data-maj-launcher="installateur"] .bande-maj .bande-bouton[data-action="nouvel-installateur"] { display: inline-flex; }
+/* pendant une partie, le redemarrage attend : le bouton le montre */
+body[data-etat="en-jeu"] .bande-bouton[data-action="redemarrer"] { filter: grayscale(.6) opacity(.7); cursor: default; }
+
+/* ---------- les titres de zone (comme les zones des ecrans du serveur) ---------- */
+.zone-titre {
+  display: flex; align-items: center; gap: 10px; margin: 0;
+  font-size: 15px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+}
+.zone-titre::after { content: ""; flex: 1; height: 2px; background: linear-gradient(90deg, currentColor, transparent); opacity: .55; }
+.zone-titre.regler { color: var(--bleu); }
+.zone-titre.depenser { color: var(--or-fonce); }
+.zone-titre.gagner { color: var(--vert); }
+.zone-phrase { margin: 4px 0 0; font-size: 14px; font-weight: 400; color: var(--encre-douce); }
+
+/* ---------- les boutons pixel (24 x 24, bord de 5) ----------
+   Les bords viennent de la texture (le relief pixel) ; le milieu est la couleur unie de la texture, sans ses petites
+   marques : etirees, elles passaient par-dessus les lettres (vu par a7 et 5b dans la vraie fenetre, 25/09). */
+.bouton {
+  position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  border: 15px solid transparent; border-image-slice: 5; border-image-width: 15px; border-image-repeat: round;
+  background-clip: padding-box;
+  padding: 0 12px; cursor: pointer; image-rendering: pixelated;
+  font-weight: 600; font-size: 16px; color: var(--encre); white-space: nowrap;
+  transition: filter .15s ease, transform .12s ease, box-shadow .2s ease;
+}
+.bouton:hover:not(:disabled) { filter: brightness(1.07) saturate(1.05); transform: translateY(-1px); }
+.bouton:active:not(:disabled) { transform: translateY(1px); filter: brightness(.96); }
+.bouton:focus-visible { outline: 3px solid var(--or-clair); outline-offset: 3px; }
+.bouton-vert { border-image-source: url("images/bouton_vert.png"); background-color: #74be60; color: #fff; text-shadow: 0 2px 0 #1F5A17; }
+.bouton-bois { border-image-source: url("images/bouton_bois.png"); background-color: #d1a66a; }
+.bouton-or { border-image-source: url("images/bouton_or.png"); background-color: #e9c34e; }
+.bouton-rouge { border-image-source: url("images/bouton_rouge.png"); background-color: #d4665a; color: #fff; text-shadow: 0 2px 0 #6E1A14; }
+.bouton:disabled { border-image-source: url("images/bouton_inactif.png"); background-color: #b8ad94; color: #5f5a50; text-shadow: 0 2px 0 rgba(255, 255, 255, .35); cursor: default; }
+.engrenage { width: 22px; height: 22px; shape-rendering: crispEdges; color: var(--bois); flex: none; }
+.bouton svg { shape-rendering: crispEdges; }
+
+/* ---------- les cases d'inventaire (la tete du joueur) ---------- */
+.case {
+  width: 60px; height: 60px; display: grid; place-items: center; flex: none;
+  background: url("images/case.png") 0 0 / 100% 100%; image-rendering: pixelated;
+}
+.case img { width: 44px; height: 44px; }
+.case.petite { width: 48px; height: 48px; }
+.case.petite img { width: 34px; height: 34px; }
+
+/* ---------- le parchemin enroule (les nouvelles, les reglages) ---------- */
+.baton {
+  height: 22px; margin: 0 -14px; flex: none; position: relative; z-index: 1;
+  background: url("images/rondin.png") 0 0 / 48px 48px; image-rendering: pixelated;
+  box-shadow: inset 0 3px 0 rgba(255, 255, 255, .18), inset 0 -4px 0 rgba(0, 0, 0, .4), 0 3px 4px rgba(0, 0, 0, .4);
+}
+.baton::before, .baton::after {
+  content: ""; position: absolute; top: -4px; width: 12px; height: 30px; background: var(--or-fonce);
+  box-shadow: inset 0 3px 0 var(--or-clair), inset 0 -4px 0 #6d4d0c;
+}
+.baton::before { left: -8px; }
+.baton::after { right: -8px; }
+.rouleau-feuille {
+  flex: 1; min-height: 0; display: flex; flex-direction: column;
+  background: url("images/parchemin.png") 0 0 / 96px 96px repeat; image-rendering: pixelated;
+  box-shadow: inset 0 14px 12px -10px rgba(90, 55, 20, .5), inset 0 -14px 12px -10px rgba(90, 55, 20, .5);
+}
+.rouleau-feuille > * { image-rendering: auto; }
+
+/* une barre de defilement pixel */
+.defile { overflow-y: auto; }
+.defile::-webkit-scrollbar { width: 10px; }
+.defile::-webkit-scrollbar-track { background: rgba(58, 38, 20, .1); }
+.defile::-webkit-scrollbar-thumb { background: var(--bois-clair); box-shadow: inset 0 0 0 2px var(--bois-fonce), inset 3px 3px 0 rgba(255, 255, 255, .15); }
+
+/* ============================ ACCUEIL ============================ */
+
+/* ---------- en haut a gauche : le logo, la devise, la pancarte du serveur ---------- */
+.haut { position: absolute; left: 30px; top: 40px; display: flex; align-items: flex-start; }
+.haut .logo {
+  width: 214px; height: 214px; image-rendering: auto; filter: drop-shadow(0 8px 14px rgba(0, 0, 0, .6));
+  animation: flotte 6s ease-in-out infinite;
+}
+@keyframes flotte { 50% { transform: translateY(-4px); } }
+.haut-droite { margin: 30px 0 0 10px; width: 400px; }
+.devise {
+  margin: 0; font-family: "Lilita One", sans-serif; font-weight: 400; font-size: 34px; line-height: 1.05; letter-spacing: .5px;
+  color: var(--creme); text-shadow: 0 3px 0 #1d0f05, 0 0 18px rgba(0, 0, 0, .55);
+}
+.devise .ensemble { white-space: nowrap; color: var(--or-clair); }
+.accroche { margin: 8px 0 0; font-size: 15px; font-weight: 600; line-height: 1.35; color: var(--creme-douce); text-shadow: 0 2px 0 rgba(0, 0, 0, .75); }
+
+/* la description du serveur : les couleurs de Minecraft, lisibles sur l'ombre du soir */
+.motd { margin: 8px 0 0; font-size: 14px; font-weight: 600; line-height: 1.35; color: var(--creme-douce); text-shadow: 0 2px 0 rgba(0, 0, 0, .75); min-height: 19px; }
+.motd [data-couleur="black"] { color: #8a8a8a; }
+.motd [data-couleur="dark_blue"] { color: #6f86ff; }
+.motd [data-couleur="dark_green"] { color: #4fc44f; }
+.motd [data-couleur="dark_aqua"] { color: #3ac6c6; }
+.motd [data-couleur="dark_red"] { color: #e0483c; }
+.motd [data-couleur="dark_purple"] { color: #d86ad8; }
+.motd [data-couleur="gold"] { color: #FFB520; }
+.motd [data-couleur="gray"] { color: #c9bfae; }
+.motd [data-couleur="dark_gray"] { color: #948a7c; }
+.motd [data-couleur="blue"] { color: #8395ff; }
+.motd [data-couleur="green"] { color: #8FE06B; }
+.motd [data-couleur="aqua"] { color: #6ff0f0; }
+.motd [data-couleur="red"] { color: #ff6a5c; }
+.motd [data-couleur="light_purple"] { color: #ff7cff; }
+.motd [data-couleur="yellow"] { color: #FFE066; }
+.motd [data-couleur="white"] { color: var(--creme); }
+.motd [data-couleur="hex"] { color: var(--couleur); }
+.motd [data-gras="oui"] { font-weight: 700; }
+.motd [data-italique="oui"] { font-style: italic; }
+.motd [data-souligne="oui"] { text-decoration: underline; }
+.motd [data-barre="oui"] { text-decoration: line-through; }
+
+/* la pancarte, suspendue a deux chaines */
+.pancarte-accroche { position: relative; height: 22px; margin-top: 12px; width: 360px; }
+.pancarte-accroche i {
+  position: absolute; top: 0; width: 6px; height: 22px;
+  background: repeating-linear-gradient(180deg, #8b8f96 0 4px, #4d5057 4px 6px, #b7bcc4 6px 8px, #4d5057 8px 11px);
+  box-shadow: 1px 0 0 #2b2d31, -1px 0 0 #2b2d31;
+}
+.pancarte-accroche i:first-child { left: 36px; }
+.pancarte-accroche i:last-child { right: 36px; }
+.pancarte {
+  width: 360px; padding: 12px 16px;
+  background: url("images/planches.png") 0 0 / 48px 48px repeat; image-rendering: pixelated;
+  box-shadow: inset 0 0 0 3px #3F2612, inset 0 0 0 6px rgba(255, 220, 160, .18), 0 12px 22px rgba(0, 0, 0, .55);
+  color: var(--creme);
+  transform-origin: 50% -22px; animation: balance 7s ease-in-out infinite;
+}
+@keyframes balance { 25% { transform: rotate(.5deg); } 75% { transform: rotate(-.5deg); } }
+.pancarte > * { image-rendering: auto; }
+.pancarte-ligne { display: flex; align-items: center; gap: 10px; }
+.pancarte-mot { font-family: "Lilita One", sans-serif; font-size: 23px; letter-spacing: .5px; text-shadow: 0 2px 0 #2a1709; }
+/* les phrases longues (« Serveur fermé pour le moment », « Pas de connexion internet ») tiennent sur une ligne */
+body:not([data-serveur="en-ligne"]) .pancarte-mot { font-size: 19px; }
+.pancarte-phrase { margin: 4px 0 0; font-size: 14px; color: var(--creme-douce); text-shadow: 0 1px 0 #2a1709; }
+.pancarte-phrase:empty { display: none; }
+
+/* le voyant et la latence, selon l'etat du serveur */
+.voyant { width: 12px; height: 12px; flex: none; background: var(--or); box-shadow: 0 0 0 3px rgba(215, 164, 33, .25); animation: pouls 1.2s ease-in-out infinite; }
+@keyframes pouls { 50% { box-shadow: 0 0 0 7px rgba(215, 164, 33, 0); } }
+body[data-serveur="en-ligne"] .voyant { background: var(--vert-clair); box-shadow: 0 0 0 3px rgba(108, 192, 74, .25); animation: pouls-vert 2.4s ease-in-out infinite; }
+@keyframes pouls-vert { 50% { box-shadow: 0 0 0 7px rgba(108, 192, 74, 0); } }
+body[data-serveur="hors-ligne"] .voyant { background: #e0483c; box-shadow: 0 0 0 3px rgba(224, 72, 60, .25); animation: none; }
+body[data-serveur="injoignable"] .voyant { background: #9a8f80; box-shadow: none; animation: none; }
+.latence { margin-left: auto; display: inline-flex; align-items: flex-end; gap: 2px; height: 14px; }
+.latence i { width: 3px; background: var(--vert-clair); box-shadow: 1px 1px 0 rgba(0, 0, 0, .35); }
+.latence i:nth-child(1) { height: 4px; } .latence i:nth-child(2) { height: 7px; } .latence i:nth-child(3) { height: 10px; } .latence i:nth-child(4) { height: 14px; }
+body:not([data-serveur="en-ligne"]) .latence { display: none; }
+.latence-ms { font-size: 12px; color: var(--creme-douce); text-shadow: 0 1px 0 #2a1709; }
+
+/* les tetes des joueurs connectes (les 9 skins de base de Minecraft, data-tete de 0 a 8), le pseudo au survol */
+.tetes { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-wrap: wrap; row-gap: 6px; }
+.tetes li {
+  position: relative; width: 30px; height: 30px; margin-right: -4px; font-size: 0;
+  background: url("images/tetes/tete_0.png") 0 0 / 100% 100%; image-rendering: pixelated;
+  box-shadow: 0 0 0 2px #2a1709; transition: transform .15s ease;
+}
+.tetes li[data-tete="1"] { background-image: url("images/tetes/tete_1.png"); }
+.tetes li[data-tete="2"] { background-image: url("images/tetes/tete_2.png"); }
+.tetes li[data-tete="3"] { background-image: url("images/tetes/tete_3.png"); }
+.tetes li[data-tete="4"] { background-image: url("images/tetes/tete_4.png"); }
+.tetes li[data-tete="5"] { background-image: url("images/tetes/tete_5.png"); }
+.tetes li[data-tete="6"] { background-image: url("images/tetes/tete_6.png"); }
+.tetes li[data-tete="7"] { background-image: url("images/tetes/tete_7.png"); }
+.tetes li[data-tete="8"] { background-image: url("images/tetes/tete_8.png"); }
+.tetes li:hover { transform: translateY(-3px); z-index: 2; }
+/* plus de joueurs que de tetes montrees (data-plus sur la liste, si app.js le donne) : « +15 » */
+.tetes[data-plus]::after {
+  content: "+" attr(data-plus); margin-left: 12px; height: 30px; padding: 0 8px; display: grid; place-items: center;
+  background: rgba(20, 10, 4, .45); box-shadow: 0 0 0 2px #2a1709; font-size: 13px; font-weight: 700; color: var(--creme);
+}
+.tetes li:hover::after {
+  content: attr(data-pseudo); position: absolute; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%);
+  padding: 3px 8px; white-space: nowrap; font-size: 13px; font-weight: 600; color: var(--creme);
+  background: rgba(20, 10, 4, .92); box-shadow: 0 0 0 2px var(--bois-clair);
+}
+
+/* ---------- a droite : les nouvelles sur le parchemin enroule ---------- */
+.rouleau { position: absolute; right: 30px; top: 50px; bottom: 34px; width: 372px; display: flex; flex-direction: column; filter: drop-shadow(0 14px 20px rgba(0, 0, 0, .55)); }
+.rouleau .rouleau-feuille { padding: 16px 16px 10px 20px; }
+.rouleau .zone-phrase { margin-bottom: 10px; }
+.nouvelles { flex: 1; min-height: 0; padding-right: 6px; }
+.nouvelles-vide { margin: 20px 0 0; font-size: 14px; color: var(--encre-douce); font-style: italic; }
+.nouvelles-vide.sans-internet, body[data-serveur="injoignable"] .nouvelles-vide.attente { display: none; }
+body[data-serveur="injoignable"] .nouvelles-vide.sans-internet { display: block; }
+.nouvelles:not([hidden]) ~ .nouvelles-vide { display: none !important; }
+
+.nouvelle details summary {
+  display: flex; align-items: center; gap: 12px; padding: 6px 4px; cursor: pointer; list-style: none;
+  transition: background .15s ease;
+}
+.nouvelle details summary::-webkit-details-marker { display: none; }
+.nouvelle details summary::after {
+  content: ""; margin-left: auto; width: 8px; height: 8px; flex: none;
+  border-right: 3px solid var(--bois-clair); border-bottom: 3px solid var(--bois-clair); transform: rotate(45deg) translate(-2px, -2px);
+  transition: transform .2s ease;
+}
+.nouvelle details[open] summary::after { transform: rotate(225deg) translate(-2px, -2px); }
+.nouvelle details:not([open]) summary:hover { background: rgba(215, 164, 33, .16); }
+.nouvelle-tete { display: flex; flex-direction: column; }
+.nouvelle-titre { font-family: "Lilita One", sans-serif; font-size: 18px; color: var(--bois); letter-spacing: .3px; }
+.nouvelle time { font-size: 12px; color: var(--encre-douce); }
+/* le sceau : de cire rouge pour la plus recente, d'or pour les precedentes */
+.sceau {
+  width: 32px; height: 32px; flex: none; display: grid; place-items: center; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #e7c35a, var(--or) 55%, var(--or-fonce));
+  box-shadow: 0 2px 3px rgba(0, 0, 0, .25);
+  font-family: "Lilita One", sans-serif; font-size: 14px; color: #5a3d06; text-shadow: 0 1px 0 rgba(255, 255, 255, .4);
+}
+.sceau:empty::before { content: "✦"; font-family: "Fredoka", sans-serif; }
+.nouvelle[data-recente="oui"] .sceau {
+  width: 46px; height: 46px; font-size: 20px; color: #FFE1CF; text-shadow: 0 2px 0 #5a120d;
+  background: radial-gradient(circle at 35% 30%, #d9564a, var(--ruban) 55%, #7d2019);
+  box-shadow: 0 0 0 3px rgba(125, 32, 25, .35), 0 3px 4px rgba(0, 0, 0, .3);
+}
+.nouvelle[data-recente="oui"] .nouvelle-titre { font-size: 22px; }
+.nouvelle[data-recente="oui"] time { font-size: 13px; }
+.nouvelle[data-recente="oui"] + .nouvelle { margin-top: 10px; padding-top: 8px; border-top: 2px dashed rgba(107, 68, 35, .4); }
+.nouvelle ul { list-style: none; margin: 4px 0 8px; padding: 0 0 0 4px; }
+.nouvelle li { position: relative; padding-left: 18px; margin: 7px 0; font-size: 14.5px; font-weight: 400; line-height: 1.35; color: var(--encre); }
+.nouvelle li::before {
+  content: ""; position: absolute; left: 2px; top: 6px; width: 7px; height: 7px; transform: rotate(45deg);
+  background: var(--or); box-shadow: 1px 1px 0 var(--or-fonce);
+}
+
+/* ---------- en bas a gauche : jouer ---------- */
+.jouer-zone { position: absolute; left: 34px; bottom: 42px; width: 580px; }
+.joueur { display: flex; align-items: center; gap: 14px; }
+.jouer-zone .zone-titre.gagner { color: var(--vert-clair); text-shadow: var(--ombre-texte); font-size: 13px; }
+.jouer-zone .zone-titre::after { max-width: 160px; }
+.joueur-avant { margin: 3px 0 0; font-size: 13px; color: var(--creme-douce); text-shadow: var(--ombre-texte); }
+.joueur-nom { margin: 0; font-family: "Lilita One", sans-serif; font-size: 28px; line-height: 1.1; color: var(--creme); text-shadow: var(--ombre-texte); }
+.jouer-phrase { margin-top: 12px; color: var(--creme-douce); text-shadow: var(--ombre-texte); }
+.etat { margin: 6px 0 0; min-height: 20px; font-size: 15px; font-weight: 600; color: var(--creme); text-shadow: var(--ombre-texte); }
+/* pendant le travail : la jauge prend la place de la phrase */
+body:not([data-etat="pret"]):not([data-etat="erreur"]) .jouer-phrase { display: none; }
+.jauge { display: none; position: relative; height: 18px; width: 440px; margin: 8px 0 2px; background: var(--bois-fonce); box-shadow: inset 0 0 0 2px #24150a, 0 2px 0 rgba(255, 255, 255, .08); }
+body[data-etat="maj"] .jauge, body[data-etat="installation"] .jauge, body[data-etat="lancement"] .jauge { display: block; }
+.jauge > i {
+  position: absolute; left: 3px; top: 3px; bottom: 3px; width: calc((100% - 6px) * var(--progression, 0));
+  background: linear-gradient(180deg, var(--or-clair) 0 30%, var(--or) 30% 75%, var(--or-fonce) 75%);
+  transition: width .3s ease;
+}
+.jauge > i::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent 0 9px, rgba(0, 0, 0, .12) 9px 12px); }
+/* un probleme : sur sa ligne a lui, en rouge */
+.probleme {
+  margin: 10px 0 0; padding: 8px 12px; max-width: 540px; font-size: 14px; font-weight: 600; line-height: 1.35; color: #fff;
+  background: rgba(181, 53, 43, .92); box-shadow: inset 0 0 0 2px #6E1A14, 0 6px 14px rgba(0, 0, 0, .4);
+}
+.boutons { display: flex; gap: 12px; align-items: stretch; margin-top: 14px; }
+.jouer {
+  width: 340px; height: 92px; border-width: 20px; border-image-width: 20px;
+  font-family: "Lilita One", sans-serif; font-size: 46px; letter-spacing: 4px;
+  text-shadow: 0 3px 0 #1F5A17, 0 0 1px #1F5A17;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .55), 0 0 40px rgba(108, 192, 74, .22);
+}
+.jouer:hover:not(:disabled) { filter: brightness(1.1) saturate(1.1); box-shadow: 0 8px 22px rgba(0, 0, 0, .55), 0 0 50px rgba(108, 192, 74, .4); }
+.jouer:disabled { font-size: 26px; letter-spacing: 1px; box-shadow: 0 8px 22px rgba(0, 0, 0, .55); }
+.jouer-zone .reglages { height: 92px; padding: 0 12px; border-width: 18px; border-image-width: 18px; font-size: 17px; }
+
+.pied { position: absolute; left: 36px; bottom: 14px; display: flex; gap: 10px; font-size: 12px; color: rgba(243, 223, 182, .7); }
+.pied span:empty, .pied span:empty + .pied-point, .pied-point:has(+ span:empty) { display: none; }
+
+/* ============================ RÉGLAGES ============================ */
+/* le parchemin prend la hauteur de ce qu'il porte, au milieu de la fenetre (sous la barre de titre) */
+.grand-rouleau {
+  position: absolute; left: 50%; top: calc(50% + 17px); width: 800px; transform: translate(-50%, -50%);
+  display: flex; flex-direction: column; filter: drop-shadow(0 16px 24px rgba(0, 0, 0, .6));
+}
+.grand-rouleau .rouleau-feuille { flex: none; padding: 22px 34px 28px; }
+.reglages-tete { display: flex; align-items: center; gap: 18px; margin-bottom: 14px; }
+.reglages-tete h1 { margin: 0; font-family: "Lilita One", sans-serif; font-weight: 400; font-size: 36px; color: var(--bois); letter-spacing: .5px; }
+.retour { height: 46px; font-size: 15px; }
+.retour svg { width: 14px; height: 14px; color: var(--bois); }
+.reglages-zones { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; flex: 1; align-content: start; }
+.zone {
+  padding: 14px 16px 16px; background: rgba(255, 252, 240, .6);
+  box-shadow: inset 0 0 0 2px rgba(107, 68, 35, .25), inset 4px 0 0 var(--bleu);
+}
+.zone.dossiers { grid-column: 1 / -1; }
+.dossiers-boutons { display: flex; gap: 12px; margin-top: 12px; }
+.dossiers-boutons .bouton { height: 50px; }
+
+/* le champ du pseudo : une case avec la tete, puis le parchemin */
+.champ-pseudo { display: flex; align-items: center; gap: 10px; margin-top: 12px; }
+.champ-pseudo input {
+  flex: 1; min-width: 0; height: 46px; padding: 0 14px; border: 0; outline: 0;
+  font-family: "Lilita One", sans-serif; font-size: 22px; letter-spacing: .5px; color: var(--encre);
+  background: var(--parchemin); box-shadow: inset 0 0 0 3px var(--bois-fonce), inset 4px 4px 0 rgba(0, 0, 0, .1);
+  transition: box-shadow .15s ease;
+}
+.champ-pseudo input::placeholder { color: #b9a47f; }
+.champ-pseudo input:focus { box-shadow: inset 0 0 0 3px var(--or-fonce), inset 4px 4px 0 rgba(0, 0, 0, .1), 0 0 0 3px rgba(255, 215, 94, .55); }
+.aide { margin: 8px 0 0; min-height: 18px; font-size: 13px; color: var(--encre-douce); }
+.aide[data-faux="oui"] { color: var(--rouge); font-weight: 600; }
+/* un pseudo qui ne differe que par les majuscules : le bouton rouge pour le garder quand meme (app.js retire hidden) */
+.confirmer-pseudo { margin-top: 8px; height: 38px; border-width: 10px; border-image-width: 10px; padding: 0 12px; font-size: 14px; }
+
+/* la memoire : un curseur pixel, la valeur en grand */
+.memoire { display: flex; align-items: center; gap: 16px; margin-top: 16px; }
+.memoire input[type="range"] { flex: 1; -webkit-appearance: none; appearance: none; height: 30px; background: transparent; cursor: pointer; }
+.memoire input[type="range"]::-webkit-slider-runnable-track {
+  height: 12px; background: var(--bois-fonce); box-shadow: inset 0 0 0 2px #24150a, inset 0 3px 0 rgba(0, 0, 0, .3);
+}
+.memoire input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 24px; height: 30px; margin-top: -9px;
+  background: url("images/bouton_or.png") 0 0 / 100% 100%; image-rendering: pixelated;
+  box-shadow: 0 3px 0 rgba(0, 0, 0, .3);
+}
+.memoire input[type="range"]:focus { outline: 0; }
+.memoire input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px rgba(255, 215, 94, .7); }
+.memoire-valeur { min-width: 64px; text-align: right; font-family: "Lilita One", sans-serif; font-size: 26px; color: var(--bois); }
+
+/* ============================ BIENVENUE ============================ */
+.bienvenue { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px 0 10px; text-align: center; }
+.bienvenue .logo { width: 230px; height: 230px; image-rendering: auto; filter: drop-shadow(0 8px 14px rgba(0, 0, 0, .6)); animation: flotte 6s ease-in-out infinite; }
+.bienvenue h1 { margin: 4px 0 0; font-family: "Lilita One", sans-serif; font-weight: 400; font-size: 42px; color: var(--creme); text-shadow: 0 3px 0 #1d0f05, 0 0 18px rgba(0, 0, 0, .55); }
+.bienvenue-phrase { margin: 8px 0 0; max-width: 560px; font-size: 16px; line-height: 1.4; color: var(--creme-douce); text-shadow: var(--ombre-texte); }
+.champ-pseudo.grand { width: 460px; margin-top: 22px; }
+.champ-pseudo.grand input { height: 60px; font-size: 26px; box-shadow: inset 0 0 0 3px var(--bois-fonce), inset 4px 4px 0 rgba(0, 0, 0, .1), 0 0 0 3px rgba(255, 215, 94, .35), 0 10px 20px rgba(0, 0, 0, .45); }
+.champ-pseudo.grand input:focus { box-shadow: inset 0 0 0 3px var(--or-fonce), inset 4px 4px 0 rgba(0, 0, 0, .1), 0 0 0 4px rgba(255, 215, 94, .7), 0 10px 20px rgba(0, 0, 0, .45); }
+/* deux phrases (la regle, puis les majuscules) : assez etroit pour qu'elles tombent chacune sur sa ligne */
+.bienvenue .aide { max-width: 470px; line-height: 1.45; color: var(--creme-douce); text-shadow: var(--ombre-texte); }
+.bienvenue .aide[data-faux="oui"] { color: #ff8a7c; }
+.commencer {
+  margin-top: 18px; width: 340px; height: 80px; border-width: 18px; border-image-width: 18px;
+  font-family: "Lilita One", sans-serif; font-size: 32px; letter-spacing: 2px; text-shadow: 0 3px 0 #1F5A17;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .55);
+}
+.commencer:disabled { font-size: 28px; }
