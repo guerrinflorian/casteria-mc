@@ -56,10 +56,10 @@ Il met ton jeu à jour tout seul, te montre qui joue en ce moment et ce qui chan
 ## Des boss à affronter
 
 <p align="center">
-  <img src="images/boss.png" alt="Des boss de Casteria : le Dragon Ancien, le Yéti des Glaces, l'Oni Samouraï, le Djinn des Sables et le Kraken des Abysses" width="780">
+  <img src="images/boss.png" alt="Des boss de Casteria : le Chevalier Noir, le Yéti des Glaces, l'Oni Samouraï, le Djinn des Sables et le Kraken des Abysses" width="780">
 </p>
 
-<p align="center"><sub>Le Dragon Ancien, le Yéti des Glaces, l'Oni Samouraï, le Djinn des Sables et le Kraken des Abysses. Chaque boss a son arène et ses propres attaques.</sub></p>
+<p align="center"><sub>Le Chevalier Noir, le Yéti des Glaces, l'Oni Samouraï, le Djinn des Sables et le Kraken des Abysses. Chaque boss a son arène et ses propres attaques.</sub></p>
 
 <br>
 
